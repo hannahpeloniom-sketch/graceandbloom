@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grace &amp; Bloom Co. | Login and Register</title>
+  <meta name="description" content="Log in or create your Grace & Bloom Co. account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #FFD6D6;
+      --pink-soft: #FFE9E9;
+      --pink-deep: #F6B9B9;
+      --brown: #9E7A52;
+      --brown-dark: #4A1D0A;
+      --cream: #F5E8CF;
+      --white: #FFFBF8;
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Montserrat", system-ui, sans-serif;
+      --shadow: 0 20px 50px rgba(74, 29, 10, .15);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: var(--sans); color: var(--brown-dark);
+      background: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 5vw;
+      position: relative; overflow-x: hidden;
+    }
+    body::before, body::after { content: ""; position: fixed; border-radius: 50%; z-index: 0; pointer-events: none; }
+    body::before { width: 460px; height: 460px; background: var(--pink-soft); right: -140px; top: -120px; opacity: .8; }
+    body::after { width: 280px; height: 280px; background: var(--pink-deep); left: -90px; bottom: -90px; opacity: .55; }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .auth { position: relative; z-index: 1; width: 100%; max-width: 1150px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; }
+
+    /* LEFT */
+    .brand { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .brand__logo { width: 90px; height: 90px; border-radius: 50%; background: var(--white); border: 1px solid rgba(74,29,10,.15); object-fit: cover; object-position: center 60%; box-shadow: 0 6px 16px rgba(74,29,10,.12); }
+    .brand__name { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; line-height: 1; }
+    .brand__name em { display: block; font-style: normal; font-family: var(--sans); font-size: .7rem; letter-spacing: .5em; color: var(--brown); margin-top: .35rem; font-weight: 600; }
+    .back { display: inline-block; margin: 1.6rem 0 3rem; font-size: .9rem; font-weight: 600; color: var(--brown); text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 4.8rem); line-height: 1.02; font-weight: 700; margin: 0 0 1.4rem; }
+    .hero-title span { color: var(--brown); font-style: italic; }
+    .hero-sub { font-size: 1.1rem; color: #6b3a22; margin: 0; }
+
+    /* CARD */
+    .card { background: var(--white); border-radius: 28px; border-top: 7px solid var(--brown); box-shadow: var(--shadow); padding: 2.4rem 2.6rem 2.2rem; }
+    .switch { display: grid; grid-template-columns: 1fr 1fr; background: var(--pink-soft); border-radius: 999px; padding: 6px; box-shadow: inset 0 1px 4px rgba(74,29,10,.1); margin-bottom: 2.2rem; }
+    .switch button { border: 0; background: transparent; font-family: var(--sans); font-size: 1rem; font-weight: 700; color: #7a5b45; padding: .95rem 1rem; border-radius: 999px; cursor: pointer; transition: background .25s, color .25s, box-shadow .25s; }
+    .switch button.is-active { background: #fff; color: var(--brown-dark); box-shadow: 0 3px 10px rgba(74,29,10,.15); }
+    .card h2 { font-family: var(--serif); font-size: 2.4rem; font-weight: 700; margin: 0 0 .3rem; }
+    .card .sub { color: #6b3a22; margin: 0 0 1.5rem; }
+
+    .alert { border-left: 4px solid #b0524b; background: #f9e1dc; color: #7a2e29; border-radius: 10px; padding: .9rem 1.1rem; margin-bottom: 1.3rem; font-size: .95rem; }
+    .alert--ok { border-color: #4f8a3c; background: #e4f1dc; color: #2c5a1d; }
+
+    .field { display: block; font-size: .95rem; font-weight: 700; margin-bottom: 1.2rem; }
+    .field input, .field select {
+      display: block; width: 100%; margin-top: .5rem;
+      font-family: var(--sans); font-size: 1rem; font-weight: 500; color: var(--brown-dark);
+      padding: 1rem 1.2rem; border: 1px solid #e3c9c9; border-radius: 16px; background: #fff;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .field input::placeholder { color: #a99483; font-weight: 400; }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 4px rgba(158,122,82,.2); }
+    .field.has-error input, .field.has-error select { border-color: #b0524b; background: #fff6f5; }
+    .err { display: block; min-height: 1em; margin-top: .35rem; color: #b0524b; font-size: .8rem; font-weight: 500; }
+    .pw { position: relative; }
+    .pw input { padding-right: 5rem; }
+    .pw button { position: absolute; right: .8rem; top: 50%; transform: translateY(-50%); margin-top: .25rem; border: 0; background: none; font-family: var(--sans); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brown); cursor: pointer; padding: .4rem; }
+
+    .btn { width: 100%; border: 0; border-radius: 999px; padding: 1.1rem; font-family: var(--sans); font-size: 1.05rem; font-weight: 700; color: var(--pink-soft); background: var(--brown-dark); cursor: pointer; margin-top: .4rem; transition: transform .2s, background .2s, box-shadow .2s; }
+    .btn:hover { background: var(--brown); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(74,29,10,.2); }
+    .swap { text-align: center; margin: 1.3rem 0 0; font-size: .95rem; color: #6b3a22; }
+    .swap a { font-weight: 700; color: var(--brown-dark); text-decoration: none; border-bottom: 2px solid var(--brown); cursor: pointer; }
+    .forgot { display: block; text-align: right; margin: -.5rem 0 1rem; font-size: .85rem; font-weight: 600; color: var(--brown); text-decoration: none; }
+    .forgot:hover { text-decoration: underline; }
+
+    .panel[hidden] { display: none; }
+    .panel { animation: fade .35s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 900px) {
+      body { align-items: flex-start; }
+      .auth { grid-template-columns: 1fr; gap: 2rem; }
+      .back { margin-bottom: 1.5rem; }
+      .hero-title { font-size: clamp(2.4rem, 9vw, 3.4rem); }
+    }
+    @media (max-width: 500px) {
+      .card { padding: 1.6rem 1.3rem; }
+      .brand__logo { width: 70px; height: 70px; }
+      .brand__name { font-size: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .panel { animation: none; } }
+  </style>
+</head>
+<body>
+
+  <main class="auth">
+    <!-- LEFT -->
+    <section class="intro">
+      <a href="gblanding.html" class="brand" aria-label="Grace & Bloom Co. home">
+        <img class="brand__logo" src="logogb.png" alt="Grace &amp; Bloom Co. logo">
+        <span class="brand__name">Grace &amp;<em>Bloom Co.</em></span>
+      </a>
+      <a href="gblanding.html" class="back">&larr; Back to Homepage</a>
+      <h1 class="hero-title">Welcome to<br>Grace &amp; <span>Bloom</span></h1>
+      <p class="hero-sub">Login to continue, or create a new account</p>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="card">
+      <div class="switch" role="tablist" aria-label="Login or Register">
+        <button type="button" role="tab" id="tabLogin" data-mode="login" aria-selected="true" class="is-active">Login</button>
+        <button type="button" role="tab" id="tabRegister" data-mode="register" aria-selected="false">Register</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="panel" id="panelLogin" role="tabpanel" aria-labelledby="tabLogin">
+        <h2>Sign In</h2>
+        <p class="sub">Enter your credentials to continue</p>
+        <div class="alert" id="loginAlert" role="alert" hidden></div>
+        <form id="loginForm" novalidate>
+          <label class="field">Email
+            <input type="email" name="email" autocomplete="email" placeholder="you@example.com">
+            <span class="err"></span>
+          </label>
+          <label class="field">Password
+            <span class="pw">
+              <input type="password" name="password" autocomplete="current-password" placeholder="Enter your password">
+              <button type="button" class="toggle-pw">Show</button>
+            </span>
+            <span class="err"></span>
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+          <button type="submit" class="btn">Log In</button>
+        </form>
+        <p class="swap">Don't have an account? <a data-switch="register">Register</a></p>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="panel" id="panelRegister" role="tabpanel" aria-labelledby="tabRegister" hidden>
+        <h2>Create Account</h2>
+        <p class="sub">Fill in your details to get started</p>
+        <div class="alert" id="regAlert" role="alert" hidden></div>
+        <form id="regForm" novalidate>
+          <label class="field">Name
+            <input type="text" name="name" autocomplete="name" placeholder="Your full name">
+            <span class="err"></span>
+          </label>
+          <label class="field">Email
+            <input type="email" name="email" autocomplete="email" placeholder="you@example.com">
+            <span class="err"></span>
+          </label>
+          <label class="field">Password
+            <span class="pw">
+              <input type="password" name="password" autocomplete="new-password" placeholder="At least 8 characters">
+              <button type="button" class="toggle-pw">Show</button>
+            </span>
+            <span class="err"></span>
+          </label>
+            </select>
+            <span class="err"></span>
+          </label>
+          <button type="submit" class="btn">Create Account</button>
+        </form>
+        <p class="swap">Already have an account? <a data-switch="login">Login</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+      var $ = function (s, c) { return (c || document).querySelector(s); };
+      var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+      var tabs = $$('.switch button');
+      var panels = { login: $('#panelLogin'), register: $('#panelRegister') };
+
+      function show(mode) {
+        mode = mode === 'register' ? 'register' : 'login';
+        tabs.forEach(function (t) {
+          var on = t.dataset.mode === mode;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+        });
+        panels.login.hidden = mode !== 'login';
+        panels.register.hidden = mode !== 'register';
+        document.title = 'Grace & Bloom Co. | ' + (mode === 'login' ? 'Login' : 'Register');
+        if (location.hash.replace('#', '') !== mode) history.replaceState(null, '', '#' + mode);
+      }
+      tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.mode); }); });
+      $$('[data-switch]').forEach(function (a) { a.addEventListener('click', function () { show(a.dataset.switch); }); });
+      window.addEventListener('hashchange', function () { show(location.hash.replace('#', '')); });
+      show(location.hash.replace('#', ''));
+
+      // Show / hide password
+      $$('.toggle-pw').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var input = $('input', b.parentNode);
+          var hidden = input.type === 'password';
+          input.type = hidden ? 'text' : 'password';
+          b.textContent = hidden ? 'Hide' : 'Show';
+        });
+      });
+
+      // Validation
+      var rules = {
+        name: function (v) { return v.trim().length >= 2 ? '' : 'Please enter your name.'; },
+        email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Please enter a valid email.'; },
+        password: function (v, form) {
+          if (form.id === 'loginForm') return v ? '' : 'Please enter your password.';
+          return v.length >= 8 && /\d/.test(v) && /[A-Za-z]/.test(v) ? '' : 'Use 8+ characters with letters and numbers.';
+        },
+        drink: function (v) { return v ? '' : 'Please select a drink.'; }
+      };
+      function check(el) {
+        var msg = rules[el.name](el.value, el.form);
+        var wrap = el.closest('.field');
+        wrap.classList.toggle('has-error', !!msg);
+        $('.err', wrap).textContent = msg;
+        return !msg;
+      }
+      function wire(form) {
+        var fields = $$('input[name], select[name]', form);
+        fields.forEach(function (el) {
+          el.addEventListener('blur', function () { check(el); });
+          el.addEventListener('input', function () { if (el.closest('.field').classList.contains('has-error')) check(el); });
+        });
+        return fields;
+      }
+
+      var loginForm = $('#loginForm'), regForm = $('#regForm');
+      var loginFields = wire(loginForm), regFields = wire(regForm);
+
+      function validateAll(fields) {
+        var bad = null;
+        fields.forEach(function (el) { if (!check(el) && !bad) bad = el; });
+        if (bad) bad.focus();
+        return !bad;
+      }
+      function alertBox(el, text, ok) {
+        el.textContent = text;
+        el.classList.toggle('alert--ok', !!ok);
+        el.hidden = false;
+      }
+
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        $('#loginAlert').hidden = true;
+        if (!validateAll(loginFields)) {
+          alertBox($('#loginAlert'), 'Incorrect email or password.');
+          return;
+        }
+        // TODO: send loginForm values to your server here, then redirect on success
+        // (e.g. window.location.href = 'gblanding.html') or show an error from the response.
+        alertBox($('#loginAlert'), 'Login details look good. Connect this form to your server to sign in.', true);
+      });
+
+      regForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        $('#regAlert').hidden = true;
+        if (!validateAll(regFields)) return;
+        // TODO: send regForm values to your server here.
+        var first = regForm.name.value.trim().split(' ')[0];
+        regForm.reset();
+        alertBox($('#regAlert'), 'Welcome, ' + first + '! Your account is ready. You can log in now.', true);
+      });
+    })();
+  </script>
+</body>
+</html>

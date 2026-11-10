@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | Grace &amp; Bloom Co.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #FFD6D6; --pink-soft: #FFF1F1; --pink-deep: #F6B9B9;
+      --brown: #9E7A52; --brown-dark: #4A1D0A; --cream: #F5E8CF; --white: #FFFBF8;
+      --ink: #3b2216; --muted: #8a6b58; --line: #efd9d4;
+      --ok: #3f8a3c; --warn: #c98a1b; --bad: #b0524b; --info: #3c6fa8;
+      --serif: "Cormorant Garamond", Georgia, serif; --sans: "Montserrat", system-ui, sans-serif;
+      --shadow: 0 8px 24px rgba(74, 29, 10, .09); --radius: 16px; --side: 264px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--pink-soft); font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+    h1, h2, h3, h4 { margin: 0; font-family: var(--serif); color: var(--brown-dark); line-height: 1.15; }
+    h2 { font-size: 2rem; font-weight: 700; }
+    h3 { font-size: 1.35rem; font-weight: 700; }
+    p { margin: 0; }
+    [hidden] { display: none !important; }
+    img { display: block; max-width: 100%; }
+
+    /* ---------- Buttons ---------- */
+    .btn { display: inline-flex; align-items: center; gap: .45rem; justify-content: center; border: 2px solid var(--brown-dark); background: var(--brown-dark); color: var(--pink-soft); font-weight: 600; font-size: .8rem; letter-spacing: .04em; padding: .65rem 1.15rem; border-radius: 999px; cursor: pointer; transition: transform .15s, background .2s, box-shadow .2s; white-space: nowrap; }
+    .btn:hover { background: var(--brown); border-color: var(--brown); transform: translateY(-1px); box-shadow: 0 6px 14px rgba(74,29,10,.18); }
+    .btn--ghost { background: transparent; color: var(--brown-dark); }
+    .btn--ghost:hover { background: var(--pink); color: var(--brown-dark); border-color: var(--brown-dark); }
+    .btn--danger { background: var(--bad); border-color: var(--bad); }
+    .btn--danger:hover { background: #8f3e38; border-color: #8f3e38; }
+    .btn--ok { background: var(--ok); border-color: var(--ok); }
+    .btn--ok:hover { background: #2f6e2c; border-color: #2f6e2c; }
+    .btn--sm { padding: .38rem .8rem; font-size: .72rem; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ---------- Forms ---------- */
+    .field { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brown-dark); margin-bottom: 1rem; }
+    .field input:not([type=checkbox]):not([type=file]), .field select, .field textarea, .input { display: block; width: 100%; margin-top: .4rem; padding: .7rem .9rem; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+    .input { margin-top: 0; }
+    .field input:focus, .field select:focus, .field textarea:focus, .input:focus { outline: none; border-color: var(--brown); box-shadow: 0 0 0 4px rgba(158,122,82,.18); }
+    .field.has-error input, .field.has-error select, .field.has-error textarea { border-color: var(--bad); background: #fff6f5; }
+    .err { display: block; min-height: 1em; margin-top: .25rem; color: var(--bad); font-size: .74rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 1rem; }
+    .check { display: flex; align-items: center; gap: .55rem; font-weight: 500; cursor: pointer; }
+    .check input { width: 17px; height: 17px; accent-color: var(--brown-dark); }
+
+    /* ---------- Login gate ---------- */
+    .gate { min-height: 100vh; display: grid; place-items: center; padding: 2rem 5vw; background: var(--pink); position: relative; overflow: hidden; }
+    .gate::before, .gate::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+    .gate::before { width: 460px; height: 460px; background: var(--pink-soft); right: -140px; top: -120px; opacity: .8; }
+    .gate::after { width: 280px; height: 280px; background: var(--pink-deep); left: -90px; bottom: -90px; opacity: .55; }
+    .gate__card { position: relative; z-index: 1; width: 100%; max-width: 440px; background: var(--white); border-top: 7px solid var(--brown); border-radius: 26px; box-shadow: 0 20px 50px rgba(74,29,10,.16); padding: 2.2rem 2.2rem 1.8rem; }
+    .gate__brand { display: flex; align-items: center; gap: .9rem; margin-bottom: 1.4rem; }
+    .gate__brand img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: center 60%; border: 1px solid var(--line); background: #fff; }
+    .gate__brand b { display: block; font-family: var(--serif); font-size: 1.5rem; letter-spacing: .06em; text-transform: uppercase; color: var(--brown-dark); line-height: 1.1; }
+    .gate__brand span { font-size: .68rem; letter-spacing: .35em; font-weight: 700; color: var(--brown); text-transform: uppercase; }
+    .gate h1 { font-size: 2.1rem; margin-bottom: .2rem; }
+    .gate .sub { color: var(--muted); margin-bottom: 1.3rem; }
+    .alert { border-left: 4px solid var(--bad); background: #f9e1dc; color: #7a2e29; border-radius: 10px; padding: .7rem 1rem; margin-bottom: 1rem; font-size: .85rem; }
+    .demo { margin-top: 1.4rem; padding: 1rem; background: var(--pink-soft); border-radius: 14px; font-size: .78rem; }
+    .demo b { display: block; margin-bottom: .5rem; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brown); }
+    .demo button { display: flex; width: 100%; justify-content: space-between; align-items: center; border: 0; background: #fff; border-radius: 10px; padding: .5rem .75rem; margin-top: .4rem; cursor: pointer; text-align: left; }
+    .demo button:hover { background: var(--pink); }
+    .demo small { color: var(--muted); }
+    .gate__back { display: block; text-align: center; margin-top: 1.1rem; font-size: .8rem; font-weight: 600; color: var(--brown); text-decoration: none; }
+    .gate__back:hover { text-decoration: underline; }
+
+    /* ---------- App shell ---------- */
+    .app { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
+    .sidebar { background: var(--brown-dark); color: var(--pink); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 1.2rem .9rem; overflow-y: auto; }
+    .side__brand { display: flex; align-items: center; gap: .75rem; padding: .3rem .5rem 1.2rem; border-bottom: 1px solid rgba(255,214,214,.15); margin-bottom: 1rem; }
+    .side__brand img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; object-position: center 60%; background: #fff; flex: none; }
+    .side__brand b { display: block; font-family: var(--serif); font-size: 1.15rem; letter-spacing: .08em; text-transform: uppercase; color: var(--pink-soft); line-height: 1.1; }
+    .side__brand span { font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--cream); opacity: .75; font-weight: 600; }
+    .side__label { font-size: .62rem; letter-spacing: .25em; text-transform: uppercase; opacity: .55; padding: .6rem .8rem .4rem; font-weight: 700; }
+    .nav { display: flex; flex-direction: column; gap: .2rem; }
+    .nav a { display: flex; align-items: center; gap: .75rem; padding: .7rem .85rem; border-radius: 12px; color: var(--pink); text-decoration: none; font-weight: 600; font-size: .86rem; transition: background .2s, color .2s; }
+    .nav a:hover { background: rgba(255,214,214,.12); }
+    .nav a.is-active { background: var(--pink); color: var(--brown-dark); }
+    .nav .ico { width: 22px; text-align: center; font-size: 1.05rem; }
+    .nav .count { margin-left: auto; min-width: 22px; text-align: center; background: var(--pink-deep); color: var(--brown-dark); border-radius: 999px; font-size: .68rem; font-weight: 700; padding: .05rem .45rem; }
+    .nav a.is-active .count { background: var(--brown-dark); color: var(--pink); }
+    .nav .count.warn { background: #e5a53a; }
+    .side__foot { margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255,214,214,.15); }
+    .me { display: flex; align-items: center; gap: .7rem; padding: .4rem .5rem; }
+    .avatar { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--pink); color: var(--brown-dark); font-weight: 700; font-family: var(--serif); font-size: 1.1rem; }
+    .me b { display: block; font-size: .82rem; color: var(--pink-soft); line-height: 1.2; }
+    .me span { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--cream); opacity: .75; }
+    .side__foot .btn { width: 100%; margin-top: .7rem; background: transparent; color: var(--pink); border-color: rgba(255,214,214,.4); }
+    .side__foot .btn:hover { background: rgba(255,214,214,.12); box-shadow: none; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 1rem; padding: .85rem 2rem; background: rgba(255,241,241,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .topbar .menu-btn { display: none; border: 0; background: none; font-size: 1.5rem; cursor: pointer; color: var(--brown-dark); padding: .2rem .4rem; }
+    .topbar h1 { font-size: 1.5rem; font-weight: 700; }
+    .topbar .spacer { flex: 1; }
+    .chip { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .8rem; border-radius: 999px; background: var(--pink); color: var(--brown-dark); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+    .content { padding: 1.8rem 2rem 3rem; max-width: 1400px; width: 100%; }
+    .view-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .view-head p { color: var(--muted); margin-top: .3rem; }
+    .actions { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+
+    /* ---------- Cards, tables ---------- */
+    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.3rem 1.4rem; }
+    .card + .card { margin-top: 1.2rem; }
+    .card__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
+    .kpi { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.2rem; position: relative; overflow: hidden; }
+    .kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--brown); }
+    .kpi--warn::before { background: #e5a53a; } .kpi--bad::before { background: var(--bad); } .kpi--ok::before { background: var(--ok); }
+    .kpi small { display: block; text-transform: uppercase; letter-spacing: .12em; font-size: .66rem; font-weight: 700; color: var(--muted); }
+    .kpi strong { display: block; font-family: var(--serif); font-size: 2.1rem; color: var(--brown-dark); line-height: 1.1; margin: .25rem 0 .1rem; }
+    .kpi span { font-size: .74rem; color: var(--muted); }
+    .cols { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.2rem; align-items: start; }
+    .cols .card + .card { margin-top: 0; }
+    .stack > .card + .card { margin-top: 1.2rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 620px; }
+    th { text-align: left; font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: .6rem .7rem; border-bottom: 2px solid var(--line); white-space: nowrap; }
+    td { padding: .7rem; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fffaf9; }
+    td.num, th.num { text-align: right; }
+    .empty { text-align: center; padding: 2rem 1rem; color: var(--muted); }
+    .toolbar { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+    .toolbar .input { width: auto; min-width: 170px; }
+    .toolbar .grow { flex: 1; min-width: 200px; }
+
+    .badge { display: inline-block; padding: .18rem .65rem; border-radius: 999px; font-size: .66rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--cream); color: var(--brown-dark); white-space: nowrap; }
+    .b-ok { background: #e1f0dc; color: #2d6a2a; } .b-warn { background: #fbecc8; color: #8a5d08; } .b-bad { background: #f8dcd8; color: #8f3e38; }
+    .b-info { background: #dce8f6; color: #2c5688; } .b-mute { background: #ece3dd; color: #7d6455; }
+
+    .thumb { width: 44px; height: 44px; border-radius: 12px; overflow: hidden; background: var(--pink); display: grid; place-items: center; flex: none; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb .ph { font-size: 1.4rem; }
+    .pcell { display: flex; align-items: center; gap: .75rem; }
+    .pcell b { display: block; line-height: 1.25; } .pcell small { color: var(--muted); }
+    tr.is-archived td { opacity: .55; }
+    .stock { display: inline-flex; align-items: center; gap: .3rem; }
+    .stock button { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; line-height: 1; color: var(--brown-dark); }
+    .stock button:hover { background: var(--pink); }
+    .stock input { width: 58px; text-align: center; padding: .3rem .2rem; border: 1.5px solid var(--line); border-radius: 8px; font-weight: 600; background: #fff; }
+    .stock input.low { border-color: #e5a53a; background: #fff8e8; } .stock input.out { border-color: var(--bad); background: #fff0ee; }
+    .row-actions { display: flex; gap: .35rem; justify-content: flex-end; flex-wrap: wrap; }
+
+    .tabs { display: inline-flex; background: var(--pink-soft); border-radius: 999px; padding: 5px; margin-bottom: 1.2rem; box-shadow: inset 0 1px 3px rgba(74,29,10,.1); flex-wrap: wrap; }
+    .tabs button { border: 0; background: transparent; padding: .55rem 1.2rem; border-radius: 999px; font-weight: 700; font-size: .8rem; color: var(--muted); cursor: pointer; }
+    .tabs button.is-active { background: #fff; color: var(--brown-dark); box-shadow: 0 2px 8px rgba(74,29,10,.15); }
+
+    .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+    .pcard { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+    .pcard.is-archived { opacity: .6; }
+    .pcard__img { height: 130px; background: var(--pink); display: grid; place-items: center; font-size: 3rem; overflow: hidden; }
+    .pcard__img img { width: 100%; height: 100%; object-fit: cover; }
+    .pcard__body { padding: 1rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+    .pcard__body h4 { font-size: 1.25rem; }
+    .pcard__price { font-weight: 700; color: var(--brown); }
+    .chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .chips span { background: var(--cream); border-radius: 999px; padding: .1rem .6rem; font-size: .68rem; font-weight: 600; }
+    .pcard__foot { display: flex; gap: .4rem; padding: 0 1rem 1rem; }
+
+    /* charts */
+    .chart svg { width: 100%; height: auto; display: block; }
+    .chart .bar { fill: var(--brown); transition: fill .2s; } .chart .bar:hover { fill: var(--brown-dark); }
+    .chart text { font-family: var(--sans); font-size: 10px; fill: var(--muted); }
+    .chart line { stroke: var(--line); }
+    .hbar { margin-bottom: .85rem; }
+    .hbar__top { display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; margin-bottom: .25rem; }
+    .hbar__top small { color: var(--muted); font-weight: 500; }
+    .track { height: 9px; background: var(--pink-soft); border-radius: 99px; overflow: hidden; }
+    .track i { display: block; height: 100%; background: var(--brown); border-radius: 99px; }
+    .track.warn i { background: #e5a53a; } .track.bad i { background: var(--bad); } .track.ok i { background: var(--ok); }
+    .funnel .hbar__top span { font-size: .92rem; }
+    .alert-row { display: flex; align-items: center; gap: .7rem; padding: .6rem 0; border-bottom: 1px solid var(--line); }
+    .alert-row:last-child { border-bottom: 0; }
+    .alert-row .pcell { flex: 1; min-width: 0; }
+
+    .timeline { list-style: none; margin: 0; padding: 0 0 0 1rem; border-left: 2px solid var(--pink-deep); }
+    .timeline li { position: relative; padding: 0 0 .8rem .9rem; font-size: .82rem; }
+    .timeline li::before { content: ""; position: absolute; left: -1.38rem; top: .3rem; width: 10px; height: 10px; border-radius: 50%; background: var(--brown); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--pink-deep); }
+    .timeline small { color: var(--muted); display: block; }
+    .kv { display: grid; grid-template-columns: 110px 1fr; gap: .35rem .8rem; font-size: .86rem; }
+    .kv dt { color: var(--muted); font-weight: 600; } .kv dd { margin: 0; }
+    .note { background: var(--pink-soft); border-radius: 12px; padding: .7rem .9rem; margin-bottom: .6rem; font-size: .84rem; }
+    .note small { display: block; color: var(--muted); margin-top: .15rem; }
+    .check-cell { color: var(--ok); font-weight: 700; text-align: center; } .x-cell { color: #cdb6aa; text-align: center; }
+    .upload { display: flex; gap: 1rem; align-items: center; padding: .8rem; border: 2px dashed var(--pink-deep); border-radius: 14px; background: var(--pink-soft); margin-top: .4rem; }
+    .upload .thumb { width: 72px; height: 72px; border-radius: 14px; background: #fff; }
+    .upload .thumb .ph { font-size: 2rem; }
+    .upload input[type=file] { font-size: .78rem; max-width: 100%; }
+    .upload small { display: block; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 500; font-size: .72rem; margin-top: .3rem; }
+    .var-row { display: grid; grid-template-columns: 1fr 120px 38px; gap: .5rem; margin-bottom: .5rem; align-items: center; }
+    .var-row .input { padding: .5rem .7rem; }
+    .x-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; color: var(--bad); font-size: 1.1rem; cursor: pointer; line-height: 1; }
+    .x-btn:hover { background: #f8dcd8; }
+    .items-pick { border: 1.5px solid var(--line); border-radius: 12px; padding: .5rem .8rem; margin-top: .4rem; background: #fff; }
+    .items-pick .check { padding: .3rem 0; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+    /* modal + toasts */
+    dialog { border: 0; border-radius: 22px; padding: 0; width: min(680px, 94vw); max-height: 92vh; box-shadow: 0 30px 80px rgba(74,29,10,.35); background: var(--white); color: var(--ink); }
+    dialog::backdrop { background: rgba(74,29,10,.5); backdrop-filter: blur(2px); }
+    .modal__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--white); z-index: 1; }
+    .modal__head h3 { font-size: 1.6rem; }
+    .modal__close { border: 0; background: var(--pink-soft); width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; color: var(--brown-dark); }
+    .modal__body { padding: 1.4rem 1.5rem; overflow-y: auto; max-height: calc(92vh - 150px); }
+    .modal__foot { display: flex; justify-content: flex-end; gap: .6rem; padding: 1rem 1.5rem; border-top: 1px solid var(--line); background: var(--white); border-radius: 0 0 22px 22px; flex-wrap: wrap; }
+    #toasts { position: fixed; right: 1.2rem; bottom: 1.2rem; display: flex; flex-direction: column; gap: .5rem; z-index: 100; }
+    .toast { background: var(--brown-dark); color: var(--pink-soft); padding: .75rem 1.1rem; border-radius: 12px; box-shadow: var(--shadow); font-weight: 600; font-size: .84rem; animation: pop .3s ease; max-width: 340px; }
+    .toast.err { background: var(--bad); }
+    @keyframes pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .scrim { display: none; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1100px) { .cols { grid-template-columns: 1fr; } }
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; z-index: 60; left: 0; top: 0; width: var(--side); transform: translateX(-102%); transition: transform .3s ease; box-shadow: 10px 0 40px rgba(0,0,0,.3); }
+      .sidebar.is-open { transform: none; }
+      .scrim.is-open { display: block; position: fixed; inset: 0; background: rgba(74,29,10,.5); z-index: 55; }
+      .topbar { padding: .75rem 1rem; } .topbar .menu-btn { display: block; }
+      .content { padding: 1.2rem 1rem 3rem; }
+      h2 { font-size: 1.7rem; }
+    }
+    @media (max-width: 560px) { .grid2, .grid3 { grid-template-columns: 1fr; } .var-row { grid-template-columns: 1fr 90px 36px; } .chip { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== ADMIN APP ===================== -->
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+      <div class="side__brand">
+        <img src="logogb.png" alt="Grace &amp; Bloom Co. logo">
+        <div><b>Grace &amp; Bloom</b><span>Admin Portal</span></div>
+      </div>
+      <div class="side__label">Manage</div>
+      <nav class="nav" id="nav"></nav>
+      <div class="side__foot">
+        <div class="me"><div class="avatar" id="meAvatar">A</div><div><b id="meName">Admin</b><span id="meRole">admin</span></div></div>
+        <a class="btn btn--sm" href="gblanding.html" style="margin-top:.7rem;width:100%;background:transparent;color:var(--pink);border-color:rgba(255,214,214,.4);">View Website</a>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" type="button">&#9776;</button>
+        <h1 id="pageTitle">Dashboard</h1>
+        <span class="spacer"></span>
+        <span class="chip" id="roleChip">admin</span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+
+  <dialog id="modal"><div id="modalBody"></div></dialog>
+  <div id="toasts" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ============================================================
+       NOTE: This is a FRONT-END PREVIEW. Data lives in this browser's
+       localStorage. This page opens directly with no sign-in. Before putting
+       it on a live site, protect it on your server (login + role checks) and
+       enforce every create/update/delete there too (e.g. PHP sessions + database).
+       ============================================================ */
+
+    var CUR = '$';
+    var KEY = 'gbAdminData_v1';
+    var STATUSES = ['Pending', 'Preparing', 'Out for delivery', 'Completed', 'Cancelled'];
+    var PERMS = {
+      admin:       { dashboard: 1, inventory: 1, catalog: 1, orders: 1, refunds: 1, customers: 1, staff: 1 },
+      staff:       { dashboard: 1, inventory: 1, catalog: 1, orders: 1, refunds: 1, customers: 1 },
+      fulfillment: { orders: 1 }
+    };
+    var VIEWS = [
+      { id: 'dashboard', label: 'Dashboard', icon: '📊', title: 'Dashboard' },
+      { id: 'inventory', label: 'Inventory', icon: '📦', title: 'Inventory Management' },
+      { id: 'catalog',   label: 'Catalog',   icon: '🗂️', title: 'Product & Catalog' },
+      { id: 'orders',    label: 'Orders',    icon: '🧾', title: 'Order Fulfillment' },
+      { id: 'refunds',   label: 'Refunds & Returns', icon: '↩️', title: 'Refunds & Returns' },
+      { id: 'customers', label: 'Customers', icon: '👥', title: 'Customers' },
+      { id: 'staff',     label: 'Staff & Roles', icon: '🔐', title: 'Staff & Roles' }
+    ];
+
+    var $ = function (s, c) { return (c || document).querySelector(s); };
+    var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var money = function (n) { return CUR + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    var uid = function (p) { return p + Math.random().toString(36).slice(2, 8); };
+    var fmtDate = function (iso, time) {
+      var d = new Date(iso);
+      var o = { month: 'short', day: 'numeric', year: 'numeric' };
+      if (time) { o.hour = 'numeric'; o.minute = '2-digit'; }
+      return d.toLocaleString('en-US', o);
+    };
+
+    /* ---------------- Data ---------------- */
+    var db = load();
+    var me = null;
+    var state = {
+      view: 'dashboard', range: 14,
+      inv: { q: '', cat: 'all', stock: 'all' },
+      cat: { tab: 'products', filter: 'active' },
+      ord: { q: '', status: 'all' },
+      ref: { status: 'all' },
+      cus: { q: '' }
+    };
+    var pendingImg; // undefined = unchanged, null = removed, string = new image
+
+    function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+    function seed() {
+      var rnd = mulberry32(42);
+      var sizes = [{ name: 'Regular', delta: 0 }, { name: 'Large', delta: 1 }];
+      var categories = [{ id: 'c1', name: 'Coffee' }, { id: 'c2', name: 'Pastries' }, { id: 'c3', name: 'Cold & Other' }];
+      var raw = [
+        ['Heart Latte', 'c1', 4.5, 48, 12, '☕', 'Silky espresso, steamed milk and heart latte art.', sizes],
+        ['Honey Cinnamon Cappuccino', 'c1', 5.0, 36, 12, '☕', 'Velvety foam with wildflower honey and cinnamon.', sizes],
+        ['Classic Americano', 'c1', 3.5, 60, 15, '☕', 'Bold and smooth double shot over hot water.', sizes],
+        ['Butter Croissant', 'c2', 3.75, 9, 12, '🥐', 'Golden, flaky, laminated by hand every morning.', []],
+        ['Almond Croissant', 'c2', 4.5, 22, 10, '🥐', 'Almond cream filling with toasted flakes.', []],
+        ['Strawberry Cream Danish', 'c2', 4.25, 6, 8, '🍰', 'Soft pastry, vanilla custard and strawberry compote.', []],
+        ['Rose Matcha Latte', 'c3', 5.25, 30, 10, '🍵', 'Ceremonial matcha, oat milk and a whisper of rose.', [{ name: 'Hot', delta: 0 }, { name: 'Iced', delta: 0.5 }]],
+        ['Vanilla Cold Brew', 'c3', 4.75, 0, 10, '🧊', 'Steeped 18 hours, finished with vanilla sweet cream.', sizes],
+        ['Hot Chocolate', 'c3', 4.25, 41, 10, '🍫', 'Rich dark chocolate topped with house marshmallow.', []]
+      ];
+      var products = raw.map(function (r, i) {
+        return { id: 'p' + (i + 1), name: r[0], cat: r[1], price: r[2], stock: r[3], reorder: r[4], emoji: r[5], desc: r[6], variants: r[7], img: null, status: 'active' };
+      });
+      var cn = ['Maria Santos', 'Daniel Reyes', 'Aisha Khan', 'Joshua Cruz', 'Bianca Lim', 'Carlo Mendoza', 'Elise Tan', 'Noah Villanueva'];
+      var customers = cn.map(function (n, i) {
+        return {
+          id: 'u' + (i + 1), name: n,
+          email: n.toLowerCase().replace(/[^a-z]+/g, '.') + '@example.com',
+          phone: '09' + (170000000 + Math.floor(rnd() * 80000000)),
+          joined: new Date(Date.now() - (40 + Math.floor(rnd() * 300)) * 864e5).toISOString(),
+          address: (10 + i * 7) + ' Blossom Lane, Sample City',
+          notes: [], status: 'Active'
+        };
+      });
+      customers[1].notes.push({ at: new Date(Date.now() - 6 * 864e5).toISOString(), by: 'Mika Reyes', text: 'Asked about oat-milk alternatives. Prefers pickup.' });
+      customers[4].notes.push({ at: new Date(Date.now() - 2 * 864e5).toISOString(), by: 'Grace Santos', text: 'Support ticket: order arrived late. Offered a free pastry voucher.' });
+
+      var orders = [], num = 1001, now = Date.now();
+      for (var d = 29; d >= 0; d--) {
+        var cnt = 1 + Math.floor(rnd() * 3) + ((d % 7 === 5 || d % 7 === 6) ? 1 : 0);
+        for (var i = 0; i < cnt; i++) {
+          var c = customers[Math.floor(rnd() * customers.length)];
+          var k = 1 + Math.floor(rnd() * 3), items = [], total = 0;
+          for (var j = 0; j < k; j++) {
+            var p = products[Math.floor(rnd() * products.length)], q = 1 + Math.floor(rnd() * 2);
+            items.push({ pid: p.id, name: p.name, qty: q, price: p.price });
+            total += q * p.price;
+          }
+          var at = new Date(now - d * 864e5 - Math.floor(rnd() * 9) * 36e5).toISOString();
+          var st;
+          if (d > 2) st = rnd() < 0.05 ? 'Cancelled' : 'Completed';
+          else if (d === 0) st = rnd() < 0.5 ? 'Pending' : 'Preparing';
+          else st = rnd() < 0.5 ? 'Out for delivery' : 'Completed';
+          var hist = [{ status: 'Pending', at: at }];
+          if (st !== 'Pending') hist.push({ status: st, at: new Date(new Date(at).getTime() + 36e5).toISOString() });
+          var delivery = rnd() < 0.7;
+          orders.push({
+            id: 'GB-' + (num++), cid: c.id, date: at, items: items, total: Math.round(total * 100) / 100,
+            status: st, payment: st === 'Cancelled' ? 'Voided' : 'Paid', refunded: 0, history: hist,
+            ship: { name: c.name, phone: c.phone, address: c.address, method: delivery ? 'Delivery' : 'Pickup', note: rnd() < 0.25 ? 'Please add extra napkins.' : '' }
+          });
+        }
+      }
+      var done = orders.filter(function (o) { return o.status === 'Completed'; });
+      var r1 = done[done.length - 1], r2 = done[done.length - 4];
+      var refunds = [r1, r2].map(function (o, i) {
+        return {
+          id: 'R-' + (501 + i), oid: o.id, date: new Date(now - (i + 1) * 864e5).toISOString(),
+          reason: i === 0 ? 'Item arrived cold' : 'Wrong item received',
+          items: [{ pid: o.items[0].pid, name: o.items[0].name, qty: 1 }],
+          amount: o.items[0].price, status: 'Requested', note: '', restocked: false
+        };
+      });
+      var o30 = orders.filter(function (o) { return o.status !== 'Cancelled'; }).length;
+      return {
+        categories: categories, products: products, customers: customers, orders: orders, refunds: refunds,
+        employees: [
+          { id: 'e1', name: 'Grace Santos', email: 'admin@graceandbloom.co', role: 'admin', status: 'Active' },
+          { id: 'e2', name: 'Mika Reyes', email: 'staff@graceandbloom.co', role: 'staff', status: 'Active' },
+          { id: 'e3', name: 'Ben Cruz', email: 'fulfill@graceandbloom.co', role: 'fulfillment', status: 'Active' },
+          { id: 'e4', name: 'Lara Dela Cruz', email: 'lara@graceandbloom.co', role: 'fulfillment', status: 'Invited' }
+        ],
+        analytics: { sessions: Math.round(o30 / 0.03), carts: Math.round(o30 / 0.15), checkouts: Math.round(o30 / 0.4) }
+      };
+    }
+    function load() { try { var r = localStorage.getItem(KEY); if (r) return JSON.parse(r); } catch (e) {} return seed(); }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) { toast('Storage is full. Try a smaller image.', true); } }
+    save();
+
+    var prod = function (id) { return db.products.filter(function (p) { return p.id === id; })[0]; };
+    var cust = function (id) { return db.customers.filter(function (c) { return c.id === id; })[0]; };
+    var order = function (id) { return db.orders.filter(function (o) { return o.id === id; })[0]; };
+    var catName = function (id) { var c = db.categories.filter(function (x) { return x.id === id; })[0]; return c ? c.name : 'Uncategorized'; };
+    var can = function (section) { return !!(me && PERMS[me.role] && PERMS[me.role][section]); };
+    var isAdmin = function () { return me && me.role === 'admin'; };
+    var netOf = function (o) { return o.status === 'Cancelled' ? 0 : o.total - o.refunded; };
+
+    function stockBadge(p) {
+      if (p.stock <= 0) return '<span class="badge b-bad">Out of stock</span>';
+      if (p.stock <= p.reorder) return '<span class="badge b-warn">Low stock</span>';
+      return '<span class="badge b-ok">In stock</span>';
+    }
+    function statusBadge(s) {
+      var m = { Pending: 'b-warn', Preparing: 'b-info', 'Out for delivery': 'b-info', Completed: 'b-ok', Cancelled: 'b-mute',
+        Requested: 'b-warn', Refunded: 'b-ok', Rejected: 'b-bad', Paid: 'b-ok', Voided: 'b-mute', 'Partially refunded': 'b-warn',
+        Active: 'b-ok', Invited: 'b-info', Disabled: 'b-mute', archived: 'b-mute' };
+      return '<span class="badge ' + (m[s] || '') + '">' + esc(s) + '</span>';
+    }
+    function thumb(p) { return '<div class="thumb">' + (p.img ? '<img src="' + esc(p.img) + '" alt="">' : '<span class="ph">' + (p.emoji || '☕') + '</span>') + '</div>'; }
+    function lowStock() { return db.products.filter(function (p) { return p.status === 'active' && p.stock <= p.reorder; }); }
+
+    /* ---------------- Toast + modal ---------------- */
+    function toast(msg, bad) {
+      var t = document.createElement('div');
+      t.className = 'toast' + (bad ? ' err' : '');
+      t.textContent = msg;
+      $('#toasts').appendChild(t);
+      setTimeout(function () { t.remove(); }, 3200);
+    }
+    var modal = $('#modal');
+    function openModal(title, body, foot) {
+      $('#modalBody').innerHTML =
+        '<div class="modal__head"><h3>' + esc(title) + '</h3><button class="modal__close" data-action="close-modal" type="button" aria-label="Close">&times;</button></div>' +
+        '<div class="modal__body">' + body + '</div>' + (foot ? '<div class="modal__foot">' + foot + '</div>' : '');
+      if (!modal.open) modal.showModal();
+    }
+    function closeModal() { if (modal.open) modal.close(); pendingImg = undefined; }
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    function confirmBox(title, msg, label, cb) {
+      openModal(title, '<p>' + msg + '</p>',
+        '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn btn--danger" id="confirmYes" type="button">' + esc(label) + '</button>');
+      $('#confirmYes').onclick = function () { closeModal(); cb(); };
+    }
+
+    /* ---------------- Admin session (no sign-in) ---------------- */
+    function setErr(input, msg) { var f = input.closest('.field'); f.classList.add('has-error'); $('.err', f).textContent = msg; }
+
+    function enter(emp) {
+      me = emp;
+      $('#meName').textContent = emp.name; $('#meRole').textContent = emp.role;
+      $('#meAvatar').textContent = emp.name.charAt(0).toUpperCase();
+      $('#roleChip').textContent = emp.role;
+      buildNav();
+      route();
+    }
+
+    /* ---------------- Navigation ---------------- */
+    function allowed() { return VIEWS.filter(function (v) { return can(v.id); }); }
+    function buildNav() {
+      $('#nav').innerHTML = allowed().map(function (v) {
+        return '<a href="#' + v.id + '" data-view="' + v.id + '"><span class="ico">' + v.icon + '</span>' + v.label + '<span class="count" data-count="' + v.id + '" hidden></span></a>';
+      }).join('');
+      updateBadges();
+    }
+    function updateBadges() {
+      var c = {
+        orders: db.orders.filter(function (o) { return o.status === 'Pending'; }).length,
+        refunds: db.refunds.filter(function (r) { return r.status === 'Requested'; }).length,
+        inventory: lowStock().length
+      };
+      $$('[data-count]').forEach(function (el) {
+        var n = c[el.dataset.count];
+        el.hidden = !n; el.textContent = n || '';
+        el.classList.toggle('warn', el.dataset.count === 'inventory');
+      });
+    }
+    function route() {
+      if (!me) return;
+      var id = location.hash.replace('#', '');
+      var v = allowed().filter(function (x) { return x.id === id; })[0] || allowed()[0];
+      state.view = v.id;
+      if (location.hash.replace('#', '') !== v.id) history.replaceState(null, '', '#' + v.id);
+      $$('#nav a').forEach(function (a) { a.classList.toggle('is-active', a.dataset.view === v.id); });
+      $('#pageTitle').textContent = v.title;
+      document.title = v.title + ' | Admin | Grace & Bloom Co.';
+      closeSide();
+      render();
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', route);
+    function openSide() { $('#sidebar').classList.add('is-open'); $('#scrim').classList.add('is-open'); }
+    function closeSide() { $('#sidebar').classList.remove('is-open'); $('#scrim').classList.remove('is-open'); }
+    $('#menuBtn').addEventListener('click', openSide);
+    $('#scrim').addEventListener('click', closeSide);
+
+    function render() {
+      var map = { dashboard: vDashboard, inventory: vInventory, catalog: vCatalog, orders: vOrders, refunds: vRefunds, customers: vCustomers, staff: vStaff };
+      $('#content').innerHTML = map[state.view]();
+      updateBadges();
+    }
+
+    /* ============================================================
+       DASHBOARD  (Reporting & analytics)
+       ============================================================ */
+    function ordersIn(days) { return db.orders.filter(function (o) { return Date.now() - new Date(o.date).getTime() <= days * 864e5; }); }
+
+    function chartSVG(days) {
+      var b = [], i;
+      for (i = days - 1; i >= 0; i--) {
+        var d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i);
+        b.push({ key: d.toDateString(), label: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), v: 0 });
+      }
+      db.orders.forEach(function (o) {
+        var k = new Date(o.date).toDateString();
+        for (var j = 0; j < b.length; j++) if (b[j].key === k) { b[j].v += netOf(o); break; }
+      });
+      var max = Math.max(1, Math.max.apply(null, b.map(function (x) { return x.v; })));
+      var W = 720, H = 250, pl = 46, pb = 30, pt = 10, pr = 8, bw = (W - pl - pr) / b.length, ch = H - pt - pb;
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Net revenue per day">';
+      for (i = 0; i <= 4; i++) {
+        var y = pt + ch - (ch * i / 4);
+        s += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y + '" y2="' + y + '"/><text x="' + (pl - 6) + '" y="' + (y + 3) + '" text-anchor="end">' + CUR + Math.round(max * i / 4) + '</text>';
+      }
+      var step = Math.ceil(b.length / 8);
+      b.forEach(function (x, idx) {
+        var h = (x.v / max) * ch, bx = pl + idx * bw + bw * 0.14;
+        s += '<rect class="bar" x="' + bx + '" y="' + (pt + ch - h) + '" width="' + (bw * 0.72) + '" height="' + Math.max(h, 0) + '" rx="3"><title>' + x.label + ': ' + money(x.v) + '</title></rect>';
+        if (idx % step === 0) s += '<text x="' + (bx + bw * 0.36) + '" y="' + (H - 10) + '" text-anchor="middle">' + x.label + '</text>';
+      });
+      return s + '</svg>';
+    }
+
+    function vDashboard() {
+      var o30 = ordersIn(30).filter(function (o) { return o.status !== 'Cancelled'; });
+      var rev = o30.reduce(function (a, o) { return a + netOf(o); }, 0);
+      var aov = o30.length ? rev / o30.length : 0;
+      var an = db.analytics, conv = an.sessions ? o30.length / an.sessions * 100 : 0;
+      var pending = db.orders.filter(function (o) { return o.status === 'Pending'; }).length;
+      var openRef = db.refunds.filter(function (r) { return r.status === 'Requested'; }).length;
+      var low = lowStock();
+
+      var tally = {};
+      o30.forEach(function (o) { o.items.forEach(function (it) { var t = tally[it.pid] || (tally[it.pid] = { name: it.name, qty: 0, rev: 0 }); t.qty += it.qty; t.rev += it.qty * it.price; }); });
+      var top = Object.keys(tally).map(function (k) { return tally[k]; }).sort(function (a, b) { return b.qty - a.qty; }).slice(0, 5);
+      var topMax = top.length ? top[0].qty : 1;
+
+      var cartAb = an.carts ? (1 - o30.length / an.carts) * 100 : 0;
+      var coAb = an.checkouts ? (1 - o30.length / an.checkouts) * 100 : 0;
+      var stages = [['Store sessions', an.sessions], ['Added to cart', an.carts], ['Started checkout', an.checkouts], ['Orders placed', o30.length]];
+
+      return '' +
+        '<div class="view-head"><div><h2>Overview</h2><p>Sales and store health for the last 30 days.</p></div></div>' +
+        '<div class="kpis">' +
+          '<div class="kpi"><small>Net revenue (30d)</small><strong>' + money(rev) + '</strong><span>After refunds</span></div>' +
+          '<div class="kpi"><small>Orders (30d)</small><strong>' + o30.length + '</strong><span>Excluding cancelled</span></div>' +
+          '<div class="kpi"><small>Avg. order value</small><strong>' + money(aov) + '</strong><span>Per order</span></div>' +
+          '<div class="kpi kpi--ok"><small>Conversion rate</small><strong>' + conv.toFixed(1) + '%</strong><span>Sessions to orders</span></div>' +
+          '<div class="kpi kpi--warn"><small>Pending orders</small><strong>' + pending + '</strong><span><a href="#orders">Review now</a></span></div>' +
+          '<div class="kpi kpi--bad"><small>Open refund requests</small><strong>' + openRef + '</strong><span><a href="#refunds">Process</a></span></div>' +
+        '</div>' +
+        '<div class="cols">' +
+          '<div class="stack">' +
+            '<div class="card"><div class="card__head"><h3>Revenue</h3>' +
+              '<select class="input" data-change="range" aria-label="Range"><option value="7"' + (state.range === 7 ? ' selected' : '') + '>Last 7 days</option><option value="14"' + (state.range === 14 ? ' selected' : '') + '>Last 14 days</option><option value="30"' + (state.range === 30 ? ' selected' : '') + '>Last 30 days</option></select></div>' +
+              '<div class="chart">' + chartSVG(state.range) + '</div></div>' +
+            '<div class="card"><div class="card__head"><h3>Conversion &amp; abandonment</h3><span class="badge b-warn">Cart abandonment ' + cartAb.toFixed(0) + '%</span></div><div class="funnel">' +
+              stages.map(function (s, i) {
+                var pct = stages[0][1] ? s[1] / stages[0][1] * 100 : 0;
+                return '<div class="hbar"><div class="hbar__top"><span>' + s[0] + '</span><small>' + s[1].toLocaleString() + (i ? ' &middot; ' + pct.toFixed(1) + '% of sessions' : '') + '</small></div><div class="track"><i style="width:' + Math.max(pct, 2) + '%"></i></div></div>';
+              }).join('') +
+              '<p style="color:var(--muted);font-size:.8rem;margin-top:.4rem;">Checkout abandonment: <b>' + coAb.toFixed(0) + '%</b>. Session, cart and checkout figures are sample analytics; connect your tracking source for live data.</p>' +
+            '</div></div>' +
+          '</div>' +
+          '<div class="stack">' +
+            '<div class="card"><div class="card__head"><h3>Top products</h3><small style="color:var(--muted)">Units sold, 30d</small></div>' +
+              (top.length ? top.map(function (t) { return '<div class="hbar"><div class="hbar__top"><span>' + esc(t.name) + '</span><small>' + t.qty + ' sold &middot; ' + money(t.rev) + '</small></div><div class="track"><i style="width:' + (t.qty / topMax * 100) + '%"></i></div></div>'; }).join('') : '<div class="empty">No sales yet.</div>') +
+            '</div>' +
+            '<div class="card"><div class="card__head"><h3>Low-stock alerts</h3><span class="badge ' + (low.length ? 'b-warn' : 'b-ok') + '">' + low.length + ' item' + (low.length === 1 ? '' : 's') + '</span></div>' +
+              (low.length ? low.sort(function (a, b) { return a.stock - b.stock; }).map(function (p) {
+                return '<div class="alert-row"><div class="pcell">' + thumb(p) + '<div><b>' + esc(p.name) + '</b><small>' + p.stock + ' left &middot; reorder at ' + p.reorder + '</small></div></div>' + stockBadge(p) +
+                  (can('inventory') ? '<button class="btn btn--sm btn--ghost" data-action="edit-product" data-id="' + p.id + '" type="button">Restock</button>' : '') + '</div>';
+              }).join('') : '<div class="empty">All products are well stocked.</div>') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    /* ============================================================
+       INVENTORY  (CRUD + image upload + stock + price + category)
+       ============================================================ */
+    function invFiltered() {
+      var f = state.inv, q = f.q.toLowerCase();
+      return db.products.filter(function (p) {
+        if (q && p.name.toLowerCase().indexOf(q) < 0) return false;
+        if (f.cat !== 'all' && p.cat !== f.cat) return false;
+        if (f.stock === 'low' && !(p.stock > 0 && p.stock <= p.reorder)) return false;
+        if (f.stock === 'out' && p.stock > 0) return false;
+        return true;
+      });
+    }
+    function invRows() {
+      var list = invFiltered();
+      if (!list.length) return '<tr><td colspan="7"><div class="empty">No products match your filters.</div></td></tr>';
+      return list.map(function (p) {
+        var cls = p.stock <= 0 ? 'out' : (p.stock <= p.reorder ? 'low' : '');
+        return '<tr class="' + (p.status === 'archived' ? 'is-archived' : '') + '">' +
+          '<td><div class="pcell">' + thumb(p) + '<div><b>' + esc(p.name) + '</b><small>' + (p.variants.length ? p.variants.length + ' variants' : 'No variants') + '</small></div></div></td>' +
+          '<td>' + esc(catName(p.cat)) + '</td>' +
+          '<td class="num">' + money(p.price) + '</td>' +
+          '<td><div class="stock"><button data-action="stock-dec" data-id="' + p.id + '" type="button" aria-label="Decrease">&minus;</button><input class="' + cls + '" type="number" min="0" value="' + p.stock + '" data-change="stock-set" data-id="' + p.id + '" aria-label="Stock for ' + esc(p.name) + '"><button data-action="stock-inc" data-id="' + p.id + '" type="button" aria-label="Increase">+</button></div></td>' +
+          '<td>' + (p.status === 'archived' ? statusBadge('archived') : stockBadge(p)) + '</td>' +
+          '<td class="num">' + p.reorder + '</td>' +
+          '<td><div class="row-actions"><button class="btn btn--sm btn--ghost" data-action="edit-product" data-id="' + p.id + '" type="button">Edit</button>' +
+          (isAdmin() ? '<button class="btn btn--sm btn--danger" data-action="delete-product" data-id="' + p.id + '" type="button">Delete</button>' : '') + '</div></td></tr>';
+      }).join('');
+    }
+    function vInventory() {
+      var f = state.inv;
+      return '<div class="view-head"><div><h2>Inventory</h2><p>Create, update and remove products. Adjust stock, prices and categories.</p></div>' +
+        '<div class="actions"><button class="btn" data-action="new-product" type="button">+ Add product</button></div></div>' +
+        '<div class="card"><div class="toolbar">' +
+          '<input class="input grow" type="search" placeholder="Search products..." value="' + esc(f.q) + '" data-input="inv-q" aria-label="Search">' +
+          '<select class="input" data-change="inv-cat" aria-label="Category"><option value="all">All categories</option>' + db.categories.map(function (c) { return '<option value="' + c.id + '"' + (f.cat === c.id ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select>' +
+          '<select class="input" data-change="inv-stock" aria-label="Stock level"><option value="all">All stock levels</option><option value="low"' + (f.stock === 'low' ? ' selected' : '') + '>Low stock</option><option value="out"' + (f.stock === 'out' ? ' selected' : '') + '>Out of stock</option></select>' +
+        '</div><div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th class="num">Price</th><th>Stock</th><th>Status</th><th class="num">Reorder at</th><th></th></tr></thead><tbody id="invBody">' + invRows() + '</tbody></table></div></div>';
+    }
+    function refreshInv() { var b = $('#invBody'); if (b) b.innerHTML = invRows(); updateBadges(); }
+
+    /* product modal (create / edit) */
+    function variantRow(v) {
+      v = v || { name: '', delta: 0 };
+      return '<div class="var-row"><input class="input" data-v="name" placeholder="e.g. Large" value="' + esc(v.name) + '"><input class="input" data-v="delta" type="number" step="0.01" value="' + v.delta + '" aria-label="Price adjustment"><button class="x-btn" type="button" data-action="rm-variant" aria-label="Remove variant">&times;</button></div>';
+    }
+    function productModal(id) {
+      var p = id ? prod(id) : null;
+      pendingImg = undefined;
+      var d = p || { name: '', cat: db.categories[0] ? db.categories[0].id : '', price: '', stock: 0, reorder: 10, desc: '', status: 'active', variants: [], img: null, emoji: '☕' };
+      var body = '<form id="productForm" data-form="product" data-id="' + (p ? p.id : '') + '" novalidate>' +
+        '<label class="field">Product name<input name="name" value="' + esc(d.name) + '" placeholder="e.g. Blueberry Muffin"><span class="err"></span></label>' +
+        '<div class="grid2"><label class="field">Category<select name="cat">' + db.categories.map(function (c) { return '<option value="' + c.id + '"' + (d.cat === c.id ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select><span class="err"></span></label>' +
+        '<label class="field">Status<select name="status"><option value="active"' + (d.status === 'active' ? ' selected' : '') + '>Active</option><option value="archived"' + (d.status === 'archived' ? ' selected' : '') + '>Archived</option></select></label></div>' +
+        '<div class="grid3"><label class="field">Price (' + CUR + ')<input name="price" type="number" step="0.01" min="0" value="' + d.price + '"><span class="err"></span></label>' +
+        '<label class="field">Stock quantity<input name="stock" type="number" min="0" step="1" value="' + d.stock + '"><span class="err"></span></label>' +
+        '<label class="field">Reorder level<input name="reorder" type="number" min="0" step="1" value="' + d.reorder + '"><span class="err"></span></label></div>' +
+        '<label class="field">Description<textarea name="desc" rows="2" placeholder="Short description for the menu">' + esc(d.desc) + '</textarea></label>' +
+        '<div class="field">Product image<div class="upload"><div class="thumb" id="imgPrev">' + (d.img ? '<img src="' + esc(d.img) + '" alt="">' : '<span class="ph">' + (d.emoji || '☕') + '</span>') + '</div><div><input type="file" id="imgFile" accept="image/png,image/jpeg,image/webp"><small>PNG, JPG or WebP. Resized automatically.</small><button class="btn btn--sm btn--ghost" type="button" data-action="rm-image" style="margin-top:.5rem;">Remove image</button></div></div></div>' +
+        '<div class="field">Variants <small style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:500;">(name and price adjustment)</small><div id="variantRows" style="margin-top:.5rem;">' + d.variants.map(variantRow).join('') + '</div><button class="btn btn--sm btn--ghost" type="button" data-action="add-variant">+ Add variant</button></div>' +
+        '</form>';
+      openModal(p ? 'Edit product' : 'Add product', body,
+        '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn" type="submit" form="productForm">' + (p ? 'Save changes' : 'Create product') + '</button>');
+    }
+    function resizeImage(file, cb) {
+      var r = new FileReader();
+      r.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var max = 640, s = Math.min(1, max / Math.max(img.width, img.height));
+          var c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          cb(c.toDataURL('image/jpeg', 0.82));
+        };
+        img.onerror = function () { toast('That file could not be read as an image.', true); };
+        img.src = r.result;
+      };
+      r.readAsDataURL(file);
+    }
+    function saveProduct(form) {
+      var ok = true, id = form.dataset.id;
+      function bad(name, msg) { var el = form[name]; var f = el.closest('.field'); f.classList.add('has-error'); $('.err', f).textContent = msg; ok = false; }
+      $$('.field', form).forEach(function (f) { f.classList.remove('has-error'); var e = $('.err', f); if (e) e.textContent = ''; });
+      var name = form.name.value.trim(), price = parseFloat(form.price.value), stock = parseInt(form.stock.value, 10), reorder = parseInt(form.reorder.value, 10);
+      if (name.length < 2) bad('name', 'Enter a product name.');
+      if (!form.cat.value) bad('cat', 'Choose a category (add one in Catalog first).');
+      if (isNaN(price) || price < 0) bad('price', 'Enter a valid price.');
+      if (isNaN(stock) || stock < 0) bad('stock', 'Enter 0 or more.');
+      if (isNaN(reorder) || reorder < 0) bad('reorder', 'Enter 0 or more.');
+      if (!ok) return;
+      var variants = $$('.var-row', form).map(function (r) {
+        return { name: $('[data-v=name]', r).value.trim(), delta: parseFloat($('[data-v=delta]', r).value) || 0 };
+      }).filter(function (v) { return v.name; });
+      var p = id ? prod(id) : null;
+      if (!p) { p = { id: uid('p'), emoji: '☕', img: null }; db.products.push(p); }
+      p.name = name; p.cat = form.cat.value; p.price = Math.round(price * 100) / 100; p.stock = stock; p.reorder = reorder;
+      p.desc = form.desc.value.trim(); p.status = form.status.value; p.variants = variants;
+      if (pendingImg !== undefined) p.img = pendingImg;
+      save(); closeModal(); render();
+      toast(id ? 'Product updated.' : 'Product created.');
+    }
+    function adjustStock(id, delta) {
+      var p = prod(id); if (!p) return;
+      p.stock = Math.max(0, p.stock + delta); save();
+      if (state.view === 'inventory') refreshInv();
+    }
+
+    /* ============================================================
+       CATALOG  (products, categories, variants, images, pricing)
+       ============================================================ */
+    function vCatalog() {
+      var t = state.cat.tab;
+      var head = '<div class="view-head"><div><h2>Catalog</h2><p>Create, edit and archive products, categories, variants and pricing.</p></div>' +
+        '<div class="actions"><button class="btn" data-action="new-product" type="button">+ Add product</button></div></div>' +
+        '<div class="tabs" role="tablist">' + [['products', 'Products'], ['categories', 'Categories'], ['pricing', 'Pricing']].map(function (x) {
+          return '<button type="button" data-action="cat-tab" data-id="' + x[0] + '" class="' + (t === x[0] ? 'is-active' : '') + '">' + x[1] + '</button>';
+        }).join('') + '</div>';
+      if (t === 'categories') return head + catCategories();
+      if (t === 'pricing') return head + catPricing();
+      return head + catProducts();
+    }
+    function catProducts() {
+      var f = state.cat.filter;
+      var list = db.products.filter(function (p) { return f === 'all' || p.status === f; });
+      return '<div class="toolbar"><select class="input" data-change="cat-filter" aria-label="Filter"><option value="active"' + (f === 'active' ? ' selected' : '') + '>Active products</option><option value="archived"' + (f === 'archived' ? ' selected' : '') + '>Archived products</option><option value="all"' + (f === 'all' ? ' selected' : '') + '>All products</option></select></div>' +
+        (list.length ? '<div class="pgrid">' + list.map(function (p) {
+          return '<article class="pcard ' + (p.status === 'archived' ? 'is-archived' : '') + '"><div class="pcard__img">' + (p.img ? '<img src="' + esc(p.img) + '" alt="' + esc(p.name) + '">' : p.emoji || '☕') + '</div>' +
+            '<div class="pcard__body"><span class="badge b-mute" style="align-self:flex-start;">' + esc(catName(p.cat)) + '</span><h4>' + esc(p.name) + '</h4><div class="pcard__price">' + money(p.price) + '</div>' +
+            (p.variants.length ? '<div class="chips">' + p.variants.map(function (v) { return '<span>' + esc(v.name) + (v.delta ? ' (' + (v.delta > 0 ? '+' : '') + money(v.delta) + ')' : '') + '</span>'; }).join('') + '</div>' : '<small style="color:var(--muted)">No variants</small>') + '</div>' +
+            '<div class="pcard__foot"><button class="btn btn--sm btn--ghost" data-action="edit-product" data-id="' + p.id + '" type="button">Edit</button>' +
+            (p.status === 'archived' ? '<button class="btn btn--sm btn--ok" data-action="restore-product" data-id="' + p.id + '" type="button">Restore</button>' : '<button class="btn btn--sm btn--ghost" data-action="archive-product" data-id="' + p.id + '" type="button">Archive</button>') + '</div></article>';
+        }).join('') + '</div>' : '<div class="card"><div class="empty">Nothing here yet.</div></div>');
+    }
+    function catCategories() {
+      return '<div class="card"><form class="toolbar" data-form="add-cat" novalidate><input class="input grow" name="name" placeholder="New category name (e.g. Sandwiches)" aria-label="Category name"><button class="btn" type="submit">+ Add category</button></form>' +
+        '<div class="table-wrap"><table><thead><tr><th>Category</th><th class="num">Products</th><th></th></tr></thead><tbody>' +
+        (db.categories.length ? db.categories.map(function (c) {
+          var n = db.products.filter(function (p) { return p.cat === c.id; }).length;
+          return '<tr><td><b>' + esc(c.name) + '</b></td><td class="num">' + n + '</td><td><div class="row-actions"><button class="btn btn--sm btn--ghost" data-action="rename-cat" data-id="' + c.id + '" type="button">Rename</button>' +
+            (isAdmin() ? '<button class="btn btn--sm btn--danger" data-action="delete-cat" data-id="' + c.id + '" type="button">Delete</button>' : '') + '</div></td></tr>';
+        }).join('') : '<tr><td colspan="3"><div class="empty">No categories yet.</div></td></tr>') + '</tbody></table></div></div>';
+    }
+    function catPricing() {
+      return '<div class="card"><div class="card__head"><h3>Bulk price change</h3></div>' +
+        '<form class="toolbar" data-form="bulk-price" novalidate><select class="input" name="cat"><option value="all">All categories</option>' + db.categories.map(function (c) { return '<option value="' + c.id + '">' + esc(c.name) + '</option>'; }).join('') + '</select>' +
+        '<input class="input" name="pct" type="number" step="0.1" placeholder="% change (e.g. 5 or -10)" aria-label="Percent change"><button class="btn" type="submit">Apply</button></form></div>' +
+        '<div class="card"><div class="card__head"><h3>Product prices</h3><small style="color:var(--muted)">Edit a price and press Enter or click away to save.</small></div><div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Base price</th><th>Variant prices</th></tr></thead><tbody>' +
+        db.products.map(function (p) {
+          return '<tr class="' + (p.status === 'archived' ? 'is-archived' : '') + '"><td><div class="pcell">' + thumb(p) + '<b>' + esc(p.name) + '</b></div></td><td>' + esc(catName(p.cat)) + '</td>' +
+            '<td><input class="input" style="width:110px;" type="number" step="0.01" min="0" value="' + p.price + '" data-change="price-set" data-id="' + p.id + '" aria-label="Price for ' + esc(p.name) + '"></td>' +
+            '<td>' + (p.variants.length ? p.variants.map(function (v) { return esc(v.name) + ' ' + money(p.price + v.delta); }).join(' &middot; ') : '<span style="color:var(--muted)">None</span>') + '</td></tr>';
+        }).join('') + '</tbody></table></div></div>';
+    }
+
+    /* ============================================================
+       ORDERS  (review, shipping details, status updates)
+       ============================================================ */
+    function ordFiltered() {
+      var f = state.ord, q = f.q.toLowerCase();
+      return db.orders.filter(function (o) {
+        if (f.status !== 'all' && o.status !== f.status) return false;
+        if (q) { var c = cust(o.cid); if (o.id.toLowerCase().indexOf(q) < 0 && !(c && c.name.toLowerCase().indexOf(q) >= 0)) return false; }
+        return true;
+      }).sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+    }
+    function payState(o) { return o.refunded > 0 ? (o.refunded >= o.total ? 'Refunded' : 'Partially refunded') : o.payment; }
+    function ordRows() {
+      var list = ordFiltered();
+      if (!list.length) return '<tr><td colspan="8"><div class="empty">No orders found.</div></td></tr>';
+      return list.map(function (o) {
+        var c = cust(o.cid), n = o.items.reduce(function (a, i) { return a + i.qty; }, 0);
+        return '<tr><td><b>' + o.id + '</b></td><td>' + fmtDate(o.date) + '</td><td>' + esc(c ? c.name : 'Guest') + '</td><td>' + n + '</td><td class="num">' + money(o.total) + '</td><td>' + statusBadge(payState(o)) + '</td>' +
+          '<td><select class="input" style="padding:.35rem .6rem;min-width:150px;" data-change="order-status" data-id="' + o.id + '" aria-label="Status for ' + o.id + '">' + STATUSES.map(function (s) { return '<option' + (o.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></td>' +
+          '<td><div class="row-actions"><button class="btn btn--sm btn--ghost" data-action="view-order" data-id="' + o.id + '" type="button">View</button></div></td></tr>';
+      }).join('');
+    }
+    function vOrders() {
+      var f = state.ord, counts = {};
+      db.orders.forEach(function (o) { counts[o.status] = (counts[o.status] || 0) + 1; });
+      return '<div class="view-head"><div><h2>Orders</h2><p>Review incoming orders, inspect shipping details and update their status.</p></div></div>' +
+        '<div class="kpis">' + [['Pending', 'kpi--warn'], ['Preparing', ''], ['Out for delivery', ''], ['Completed', 'kpi--ok']].map(function (s) {
+          return '<div class="kpi ' + s[1] + '"><small>' + s[0] + '</small><strong>' + (counts[s[0]] || 0) + '</strong></div>';
+        }).join('') + '</div>' +
+        '<div class="card"><div class="toolbar"><input class="input grow" type="search" placeholder="Search by order # or customer..." value="' + esc(f.q) + '" data-input="ord-q" aria-label="Search orders">' +
+        '<select class="input" data-change="ord-status" aria-label="Status filter"><option value="all">All statuses</option>' + STATUSES.map(function (s) { return '<option' + (f.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></div>' +
+        '<div class="table-wrap"><table><thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Items</th><th class="num">Total</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody id="ordBody">' + ordRows() + '</tbody></table></div></div>';
+    }
+    function refreshOrd() { var b = $('#ordBody'); if (b) b.innerHTML = ordRows(); updateBadges(); }
+    function setOrderStatus(id, status) {
+      var o = order(id); if (!o || o.status === status) return;
+      o.status = status; o.history.push({ status: status, at: new Date().toISOString() });
+      if (status === 'Cancelled') o.payment = 'Voided';
+      save(); toast(id + ' marked ' + status + '.');
+    }
+    function orderModal(id) {
+      var o = order(id), c = cust(o.cid);
+      var itemsHtml = o.items.map(function (i) { return '<tr><td>' + esc(i.name) + '</td><td class="num">' + i.qty + '</td><td class="num">' + money(i.price) + '</td><td class="num">' + money(i.qty * i.price) + '</td></tr>'; }).join('');
+      var body = '<div class="grid2" style="gap:1.2rem;">' +
+        '<div><h4 style="font-size:1.15rem;margin-bottom:.6rem;">Customer</h4><dl class="kv"><dt>Name</dt><dd>' + esc(c ? c.name : 'Guest') + '</dd><dt>Email</dt><dd>' + esc(c ? c.email : '-') + '</dd><dt>Phone</dt><dd>' + esc(o.ship.phone) + '</dd></dl></div>' +
+        '<div><h4 style="font-size:1.15rem;margin-bottom:.6rem;">Shipping details</h4><dl class="kv"><dt>Method</dt><dd>' + esc(o.ship.method) + '</dd><dt>Recipient</dt><dd>' + esc(o.ship.name) + '</dd><dt>Address</dt><dd>' + esc(o.ship.address) + '</dd><dt>Note</dt><dd>' + esc(o.ship.note || 'None') + '</dd></dl></div></div>' +
+        '<h4 style="font-size:1.15rem;margin:1.2rem 0 .4rem;">Items</h4><div class="table-wrap"><table style="min-width:0"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Price</th><th class="num">Subtotal</th></tr></thead><tbody>' + itemsHtml +
+        '<tr><td colspan="3" class="num"><b>Total</b></td><td class="num"><b>' + money(o.total) + '</b></td></tr>' +
+        (o.refunded ? '<tr><td colspan="3" class="num">Refunded</td><td class="num" style="color:var(--bad)">-' + money(o.refunded) + '</td></tr>' : '') + '</tbody></table></div>' +
+        '<div class="grid2" style="margin-top:1.2rem;gap:1.2rem;"><div><h4 style="font-size:1.15rem;margin-bottom:.6rem;">Update status</h4><select class="input" id="ordStatusSel">' + STATUSES.map(function (s) { return '<option' + (o.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></div>' +
+        '<div><h4 style="font-size:1.15rem;margin-bottom:.6rem;">History</h4><ul class="timeline">' + o.history.slice().reverse().map(function (h) { return '<li><b>' + esc(h.status) + '</b><small>' + fmtDate(h.at, true) + '</small></li>'; }).join('') + '</ul></div></div>';
+      openModal('Order ' + o.id, body,
+        '<button class="btn btn--ghost" data-action="close-modal" type="button">Close</button><button class="btn" id="saveOrdStatus" type="button">Save status</button>');
+      $('#saveOrdStatus').onclick = function () { setOrderStatus(o.id, $('#ordStatusSel').value); closeModal(); render(); };
+    }
+
+    /* ============================================================
+       REFUNDS & RETURNS  (adjust inventory + payments)
+       ============================================================ */
+    function vRefunds() {
+      var f = state.ref.status;
+      var list = db.refunds.filter(function (r) { return f === 'all' || r.status === f; }).sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+      var total = db.refunds.filter(function (r) { return r.status === 'Refunded'; }).reduce(function (a, r) { return a + r.amount; }, 0);
+      return '<div class="view-head"><div><h2>Refunds &amp; Returns</h2><p>Handle customer requests, then adjust inventory and payments.</p></div>' +
+        '<div class="actions"><button class="btn" data-action="new-refund" type="button">+ Log request</button></div></div>' +
+        '<div class="kpis"><div class="kpi kpi--warn"><small>Open requests</small><strong>' + db.refunds.filter(function (r) { return r.status === 'Requested'; }).length + '</strong></div>' +
+        '<div class="kpi kpi--ok"><small>Refunded</small><strong>' + db.refunds.filter(function (r) { return r.status === 'Refunded'; }).length + '</strong></div>' +
+        '<div class="kpi"><small>Total refunded</small><strong>' + money(total) + '</strong></div></div>' +
+        '<div class="card"><div class="toolbar"><select class="input" data-change="ref-status" aria-label="Status"><option value="all">All requests</option>' + ['Requested', 'Refunded', 'Rejected'].map(function (s) { return '<option' + (f === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></div>' +
+        '<div class="table-wrap"><table><thead><tr><th>Request</th><th>Order</th><th>Customer</th><th>Reason</th><th class="num">Amount</th><th>Status</th><th></th></tr></thead><tbody>' +
+        (list.length ? list.map(function (r) {
+          var o = order(r.oid), c = o ? cust(o.cid) : null;
+          return '<tr><td><b>' + r.id + '</b><br><small style="color:var(--muted)">' + fmtDate(r.date) + '</small></td><td>' + r.oid + '</td><td>' + esc(c ? c.name : '-') + '</td><td>' + esc(r.reason) + '<br><small style="color:var(--muted)">' + r.items.map(function (i) { return i.qty + '&times; ' + esc(i.name); }).join(', ') + '</small></td>' +
+            '<td class="num">' + money(r.amount) + '</td><td>' + statusBadge(r.status) + (r.restocked ? '<br><small style="color:var(--muted)">Restocked</small>' : '') + '</td>' +
+            '<td><div class="row-actions">' + (r.status === 'Requested' ? '<button class="btn btn--sm" data-action="process-refund" data-id="' + r.id + '" type="button">Process</button>' : '<button class="btn btn--sm btn--ghost" data-action="process-refund" data-id="' + r.id + '" type="button">View</button>') + '</div></td></tr>';
+        }).join('') : '<tr><td colspan="7"><div class="empty">No refund requests.</div></td></tr>') + '</tbody></table></div></div>';
+    }
+    function newRefundModal() {
+      var list = db.orders.filter(function (o) { return o.status !== 'Cancelled' && o.refunded < o.total; }).sort(function (a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 40);
+      if (!list.length) { toast('No refundable orders.', true); return; }
+      var body = '<form id="refForm" data-form="new-refund" novalidate>' +
+        '<label class="field">Order<select name="oid" id="refOrder">' + list.map(function (o) { var c = cust(o.cid); return '<option value="' + o.id + '">' + o.id + ' - ' + esc(c ? c.name : 'Guest') + ' - ' + money(o.total) + '</option>'; }).join('') + '</select></label>' +
+        '<div class="field">Items being returned<div class="items-pick" id="refItems"></div><span class="err" id="refItemsErr"></span></div>' +
+        '<label class="field">Reason<select name="reason"><option>Item arrived cold</option><option>Wrong item received</option><option>Item missing</option><option>Quality issue</option><option>Order never arrived</option><option>Other</option></select></label>' +
+        '<label class="field">Refund amount (' + CUR + ')<input name="amount" id="refAmount" type="number" step="0.01" min="0"><span class="err"></span></label></form>';
+      openModal('Log refund / return request', body, '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn" type="submit" form="refForm">Create request</button>');
+      function fill() {
+        var o = order($('#refOrder').value);
+        $('#refItems').innerHTML = o.items.map(function (i, idx) { return '<label class="check"><input type="checkbox" value="' + idx + '"> ' + i.qty + '&times; ' + esc(i.name) + ' <span style="margin-left:auto;color:var(--muted)">' + money(i.qty * i.price) + '</span></label>'; }).join('');
+        $('#refAmount').value = (o.total - o.refunded).toFixed(2);
+      }
+      fill();
+      $('#refOrder').onchange = fill;
+      $('#refItems').addEventListener('change', function () {
+        var o = order($('#refOrder').value), sum = 0, any = false;
+        $$('#refItems input').forEach(function (cb) { if (cb.checked) { any = true; var i = o.items[+cb.value]; sum += i.qty * i.price; } });
+        $('#refAmount').value = (any ? Math.min(sum, o.total - o.refunded) : o.total - o.refunded).toFixed(2);
+      });
+    }
+    function processRefundModal(id) {
+      var r = db.refunds.filter(function (x) { return x.id === id; })[0], o = order(r.oid), c = o ? cust(o.cid) : null;
+      var open = r.status === 'Requested';
+      var remaining = o ? o.total - o.refunded : 0;
+      var body = '<dl class="kv" style="margin-bottom:1rem;"><dt>Request</dt><dd>' + r.id + ' ' + statusBadge(r.status) + '</dd><dt>Order</dt><dd>' + r.oid + ' &middot; ' + money(o ? o.total : 0) + '</dd><dt>Customer</dt><dd>' + esc(c ? c.name : '-') + '</dd><dt>Reason</dt><dd>' + esc(r.reason) + '</dd><dt>Items</dt><dd>' + r.items.map(function (i) { return i.qty + '&times; ' + esc(i.name); }).join(', ') + '</dd>' + (r.note ? '<dt>Note</dt><dd>' + esc(r.note) + '</dd>' : '') + '</dl>' +
+        (open ? '<form id="procForm" novalidate><label class="field">Refund amount (' + CUR + ')<input name="amount" type="number" step="0.01" min="0" max="' + remaining.toFixed(2) + '" value="' + Math.min(r.amount, remaining).toFixed(2) + '"><span class="err"></span></label>' +
+          '<label class="check" style="margin-bottom:1rem;"><input type="checkbox" name="restock" checked> Return items to inventory (restock)</label>' +
+          '<label class="field">Resolution note<textarea name="note" rows="2" placeholder="Optional note for the record"></textarea></label></form>' : '');
+      openModal(open ? 'Process request' : 'Request details', body,
+        open ? '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn btn--danger" id="rejectRef" type="button">Reject</button><button class="btn btn--ok" id="approveRef" type="button">Issue refund</button>' : '<button class="btn btn--ghost" data-action="close-modal" type="button">Close</button>');
+      if (!open) return;
+      $('#rejectRef').onclick = function () { r.status = 'Rejected'; r.note = $('#procForm').note.value.trim(); save(); closeModal(); render(); toast(r.id + ' rejected.'); };
+      $('#approveRef').onclick = function () {
+        var f = $('#procForm'), amt = parseFloat(f.amount.value);
+        if (isNaN(amt) || amt <= 0 || amt > remaining + 0.001) { var fl = f.amount.closest('.field'); fl.classList.add('has-error'); $('.err', fl).textContent = 'Enter an amount up to ' + money(remaining) + '.'; return; }
+        o.refunded = Math.round((o.refunded + amt) * 100) / 100;
+        o.history.push({ status: 'Refund ' + money(amt) + ' issued', at: new Date().toISOString() });
+        if (f.restock.checked) {
+          r.items.forEach(function (i) { var p = prod(i.pid); if (p) p.stock += i.qty; });
+          r.restocked = true;
+        }
+        r.amount = amt; r.status = 'Refunded'; r.note = f.note.value.trim();
+        save(); closeModal(); render(); toast(money(amt) + ' refunded' + (r.restocked ? ' and stock updated.' : '.'));
+      };
+    }
+
+    /* ============================================================
+       CUSTOMERS  (accounts, order history, support info)
+       ============================================================ */
+    function cusRows() {
+      var q = state.cus.q.toLowerCase();
+      var list = db.customers.filter(function (c) { return !q || c.name.toLowerCase().indexOf(q) >= 0 || c.email.toLowerCase().indexOf(q) >= 0; });
+      if (!list.length) return '<tr><td colspan="6"><div class="empty">No customers found.</div></td></tr>';
+      return list.map(function (c) {
+        var os = db.orders.filter(function (o) { return o.cid === c.id; });
+        var spent = os.reduce(function (a, o) { return a + netOf(o); }, 0);
+        return '<tr><td><div class="pcell"><div class="avatar" style="width:36px;height:36px;font-size:1rem;">' + esc(c.name.charAt(0)) + '</div><div><b>' + esc(c.name) + '</b><small>' + esc(c.email) + '</small></div></div></td><td>' + esc(c.phone) + '</td><td>' + fmtDate(c.joined) + '</td><td class="num">' + os.length + '</td><td class="num">' + money(spent) + '</td>' +
+          '<td><div class="row-actions"><button class="btn btn--sm btn--ghost" data-action="view-customer" data-id="' + c.id + '" type="button">View</button></div></td></tr>';
+      }).join('');
+    }
+    function vCustomers() {
+      return '<div class="view-head"><div><h2>Customers</h2><p>Customer accounts, order history and support information.</p></div></div>' +
+        '<div class="card"><div class="toolbar"><input class="input grow" type="search" placeholder="Search by name or email..." value="' + esc(state.cus.q) + '" data-input="cus-q" aria-label="Search customers"></div>' +
+        '<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Phone</th><th>Joined</th><th class="num">Orders</th><th class="num">Lifetime spend</th><th></th></tr></thead><tbody id="cusBody">' + cusRows() + '</tbody></table></div></div>';
+    }
+    function customerModal(id) {
+      var c = cust(id), os = db.orders.filter(function (o) { return o.cid === id; }).sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+      var body = '<div class="grid2" style="gap:1.2rem;"><dl class="kv"><dt>Name</dt><dd>' + esc(c.name) + '</dd><dt>Email</dt><dd>' + esc(c.email) + '</dd><dt>Phone</dt><dd>' + esc(c.phone) + '</dd><dt>Address</dt><dd>' + esc(c.address) + '</dd><dt>Joined</dt><dd>' + fmtDate(c.joined) + '</dd></dl>' +
+        '<div><h4 style="font-size:1.15rem;margin-bottom:.5rem;">Support notes</h4>' +
+        (c.notes.length ? c.notes.slice().reverse().map(function (n) { return '<div class="note">' + esc(n.text) + '<small>' + esc(n.by) + ' &middot; ' + fmtDate(n.at) + '</small></div>'; }).join('') : '<p style="color:var(--muted);margin-bottom:.6rem;">No notes yet.</p>') +
+        '<form data-form="cust-note" data-id="' + c.id + '" novalidate><textarea class="input" name="text" rows="2" placeholder="Add a support note..." style="margin-bottom:.5rem;"></textarea><button class="btn btn--sm" type="submit">Add note</button></form></div></div>' +
+        '<h4 style="font-size:1.15rem;margin:1.2rem 0 .4rem;">Order history</h4><div class="table-wrap"><table style="min-width:0"><thead><tr><th>Order</th><th>Date</th><th class="num">Total</th><th>Status</th></tr></thead><tbody>' +
+        (os.length ? os.map(function (o) { return '<tr><td>' + o.id + '</td><td>' + fmtDate(o.date) + '</td><td class="num">' + money(o.total) + '</td><td>' + statusBadge(o.status) + '</td></tr>'; }).join('') : '<tr><td colspan="4"><div class="empty">No orders yet.</div></td></tr>') + '</tbody></table></div>';
+      openModal(c.name, body, '<button class="btn btn--ghost" data-action="close-modal" type="button">Close</button>');
+    }
+
+    /* ============================================================
+       STAFF & ROLES  (role-based access control)
+       ============================================================ */
+    function vStaff() {
+      var roles = ['admin', 'staff', 'fulfillment'];
+      var rl = { admin: 'Admin', staff: 'Staff', fulfillment: 'Fulfillment only' };
+      return '<div class="view-head"><div><h2>Staff &amp; Roles</h2><p>Manage employees and what each permission level can access.</p></div>' +
+        '<div class="actions"><button class="btn" data-action="invite" type="button">+ Invite employee</button></div></div>' +
+        '<div class="card"><div class="card__head"><h3>Employees</h3></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody>' +
+        db.employees.map(function (e) {
+          var self = e.id === me.id;
+          return '<tr><td><div class="pcell"><div class="avatar" style="width:36px;height:36px;font-size:1rem;">' + esc(e.name.charAt(0)) + '</div><div><b>' + esc(e.name) + (self ? ' (you)' : '') + '</b><small>' + esc(e.email) + '</small></div></div></td>' +
+            '<td><select class="input" style="min-width:160px;padding:.4rem .7rem;" data-change="emp-role" data-id="' + e.id + '"' + (self ? ' disabled' : '') + '>' + roles.map(function (r) { return '<option value="' + r + '"' + (e.role === r ? ' selected' : '') + '>' + rl[r] + '</option>'; }).join('') + '</select></td>' +
+            '<td>' + statusBadge(e.status) + '</td><td><div class="row-actions">' +
+            (self ? '' : '<button class="btn btn--sm btn--ghost" data-action="emp-toggle" data-id="' + e.id + '" type="button">' + (e.status === 'Disabled' ? 'Enable' : 'Disable') + '</button><button class="btn btn--sm btn--danger" data-action="emp-remove" data-id="' + e.id + '" type="button">Remove</button>') + '</div></td></tr>';
+        }).join('') + '</tbody></table></div></div>' +
+        '<div class="card"><div class="card__head"><h3>Permission levels</h3></div><div class="table-wrap"><table style="min-width:480px"><thead><tr><th>Area</th>' + roles.map(function (r) { return '<th style="text-align:center">' + rl[r] + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        VIEWS.map(function (v) { return '<tr><td><b>' + v.icon + ' ' + v.label + '</b></td>' + roles.map(function (r) { return PERMS[r][v.id] ? '<td class="check-cell">&#10003;</td>' : '<td class="x-cell">&mdash;</td>'; }).join('') + '</tr>'; }).join('') +
+        '<tr><td><b>Delete products &amp; categories</b></td><td class="check-cell">&#10003;</td><td class="x-cell">&mdash;</td><td class="x-cell">&mdash;</td></tr></tbody></table></div></div>' +
+        '<div class="card"><div class="card__head"><div><h3>Demo data</h3><p style="color:var(--muted);margin-top:.2rem;">Restore the sample products, orders and customers.</p></div><button class="btn btn--ghost" data-action="reset-data" type="button">Reset demo data</button></div></div>';
+    }
+    function inviteModal() {
+      openModal('Invite employee',
+        '<form id="invForm" data-form="invite" novalidate><label class="field">Full name<input name="name" placeholder="e.g. Sam Rivera"><span class="err"></span></label>' +
+        '<label class="field">Email<input name="email" type="email" placeholder="sam@graceandbloom.co"><span class="err"></span></label>' +
+        '<label class="field">Role<select name="role"><option value="staff">Staff</option><option value="fulfillment">Fulfillment only</option><option value="admin">Admin</option></select></label></form>',
+        '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn" type="submit" form="invForm">Send invite</button>');
+    }
+
+    /* ============================================================
+       EVENT HANDLERS  (delegated)
+       ============================================================ */
+    var actions = {
+      'close-modal': closeModal,
+      'new-product': function () { productModal(); },
+      'edit-product': function (id) { productModal(id); },
+      'delete-product': function (id) {
+        var p = prod(id);
+        confirmBox('Delete product', 'Permanently delete <b>' + esc(p.name) + '</b>? This cannot be undone. Consider archiving it instead.', 'Delete', function () {
+          db.products = db.products.filter(function (x) { return x.id !== id; }); save(); render(); toast('Product deleted.');
+        });
+      },
+      'archive-product': function (id) { prod(id).status = 'archived'; save(); render(); toast('Product archived.'); },
+      'restore-product': function (id) { prod(id).status = 'active'; save(); render(); toast('Product restored.'); },
+      'stock-inc': function (id) { adjustStock(id, 1); },
+      'stock-dec': function (id) { adjustStock(id, -1); },
+      'add-variant': function () { $('#variantRows').insertAdjacentHTML('beforeend', variantRow()); },
+      'rm-variant': function (id, t) { t.closest('.var-row').remove(); },
+      'rm-image': function () { pendingImg = null; $('#imgPrev').innerHTML = '<span class="ph">☕</span>'; var f = $('#imgFile'); if (f) f.value = ''; },
+      'cat-tab': function (id) { state.cat.tab = id; render(); },
+      'rename-cat': function (id) {
+        var c = db.categories.filter(function (x) { return x.id === id; })[0];
+        openModal('Rename category', '<form id="renForm" data-form="rename-cat" data-id="' + id + '" novalidate><label class="field">Category name<input name="name" value="' + esc(c.name) + '"><span class="err"></span></label></form>',
+          '<button class="btn btn--ghost" data-action="close-modal" type="button">Cancel</button><button class="btn" type="submit" form="renForm">Save</button>');
+      },
+      'delete-cat': function (id) {
+        var n = db.products.filter(function (p) { return p.cat === id; }).length;
+        if (n) { toast('Move or delete the ' + n + ' product(s) in this category first.', true); return; }
+        confirmBox('Delete category', 'Delete this category?', 'Delete', function () { db.categories = db.categories.filter(function (c) { return c.id !== id; }); save(); render(); toast('Category deleted.'); });
+      },
+      'view-order': orderModal,
+      'new-refund': newRefundModal,
+      'process-refund': processRefundModal,
+      'view-customer': customerModal,
+      'invite': inviteModal,
+      'emp-toggle': function (id) {
+        var e = db.employees.filter(function (x) { return x.id === id; })[0];
+        e.status = e.status === 'Disabled' ? 'Active' : 'Disabled'; save(); render(); toast(e.name + ' is now ' + e.status.toLowerCase() + '.');
+      },
+      'emp-remove': function (id) {
+        var e = db.employees.filter(function (x) { return x.id === id; })[0];
+        confirmBox('Remove employee', 'Remove <b>' + esc(e.name) + '</b> from the team?', 'Remove', function () { db.employees = db.employees.filter(function (x) { return x.id !== id; }); save(); render(); toast('Employee removed.'); });
+      },
+      'reset-data': function () {
+        confirmBox('Reset demo data', 'Replace all current data with the original sample data?', 'Reset', function () {
+          db = seed(); save();
+          var fresh = db.employees.filter(function (x) { return x.id === me.id; })[0] || db.employees[0];
+          me = fresh; render(); toast('Demo data restored.');
+        });
+      }
+    };
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-action]'); if (!t) return;
+      var fn = actions[t.dataset.action]; if (!fn) return;
+      e.preventDefault(); fn(t.dataset.id, t, e);
+    });
+
+    var changes = {
+      'range': function (el) { state.range = +el.value; render(); },
+      'inv-cat': function (el) { state.inv.cat = el.value; refreshInv(); },
+      'inv-stock': function (el) { state.inv.stock = el.value; refreshInv(); },
+      'stock-set': function (el) {
+        var p = prod(el.dataset.id), v = parseInt(el.value, 10);
+        if (isNaN(v) || v < 0) { el.value = p.stock; return; }
+        p.stock = v; save(); refreshInv(); toast(p.name + ' stock set to ' + v + '.');
+      },
+      'cat-filter': function (el) { state.cat.filter = el.value; render(); },
+      'price-set': function (el) {
+        var p = prod(el.dataset.id), v = parseFloat(el.value);
+        if (isNaN(v) || v < 0) { el.value = p.price; return; }
+        p.price = Math.round(v * 100) / 100; save(); render(); toast(p.name + ' price updated.');
+      },
+      'ord-status': function (el) { setOrderStatus(el.dataset.id, el.value); refreshOrd(); },
+      'ref-status': function (el) { state.ref.status = el.value; render(); },
+      'emp-role': function (el) {
+        var e = db.employees.filter(function (x) { return x.id === el.dataset.id; })[0];
+        e.role = el.value; save(); render(); toast(e.name + ' is now ' + el.value + '.');
+      }
+    };
+    document.addEventListener('change', function (e) {
+      if (e.target.id === 'imgFile' && e.target.files[0]) {
+        resizeImage(e.target.files[0], function (data) { pendingImg = data; $('#imgPrev').innerHTML = '<img src="' + data + '" alt="">'; });
+        return;
+      }
+      var t = e.target.closest('[data-change]'); if (t && changes[t.dataset.change]) changes[t.dataset.change](t);
+    });
+    var inputs = {
+      'inv-q': function (el) { state.inv.q = el.value; refreshInv(); },
+      'ord-q': function (el) { state.ord.q = el.value; refreshOrd(); },
+      'cus-q': function (el) { state.cus.q = el.value; var b = $('#cusBody'); if (b) b.innerHTML = cusRows(); }
+    };
+    document.addEventListener('input', function (e) {
+      var t = e.target.closest('[data-input]'); if (t && inputs[t.dataset.input]) inputs[t.dataset.input](t);
+    });
+
+    var forms = {
+      'product': saveProduct,
+      'add-cat': function (f) {
+        var n = f.name.value.trim();
+        if (n.length < 2) { toast('Enter a category name.', true); return; }
+        if (db.categories.some(function (c) { return c.name.toLowerCase() === n.toLowerCase(); })) { toast('That category already exists.', true); return; }
+        db.categories.push({ id: uid('c'), name: n }); save(); render(); toast('Category added.');
+      },
+      'rename-cat': function (f) {
+        var n = f.name.value.trim();
+        if (n.length < 2) { var fl = f.name.closest('.field'); fl.classList.add('has-error'); $('.err', fl).textContent = 'Enter a name.'; return; }
+        db.categories.filter(function (c) { return c.id === f.dataset.id; })[0].name = n; save(); closeModal(); render(); toast('Category renamed.');
+      },
+      'bulk-price': function (f) {
+        var pct = parseFloat(f.pct.value);
+        if (isNaN(pct) || pct <= -100) { toast('Enter a valid percentage.', true); return; }
+        var n = 0;
+        db.products.forEach(function (p) { if (f.cat.value === 'all' || p.cat === f.cat.value) { p.price = Math.round(p.price * (1 + pct / 100) * 100) / 100; n++; } });
+        save(); render(); toast('Updated ' + n + ' product price' + (n === 1 ? '' : 's') + '.');
+      },
+      'new-refund': function (f) {
+        var o = order(f.oid.value), picked = [];
+        $$('#refItems input').forEach(function (cb) { if (cb.checked) { var i = o.items[+cb.value]; picked.push({ pid: i.pid, name: i.name, qty: i.qty }); } });
+        var amt = parseFloat(f.amount.value);
+        $('#refItemsErr').textContent = '';
+        if (!picked.length) { $('#refItemsErr').textContent = 'Select at least one item.'; return; }
+        if (isNaN(amt) || amt <= 0 || amt > o.total - o.refunded + 0.001) { var fl = f.amount.closest('.field'); fl.classList.add('has-error'); $('.err', fl).textContent = 'Enter an amount up to ' + money(o.total - o.refunded) + '.'; return; }
+        var nextId = 'R-' + (501 + db.refunds.length);
+        db.refunds.push({ id: nextId, oid: o.id, date: new Date().toISOString(), reason: f.reason.value, items: picked, amount: Math.round(amt * 100) / 100, status: 'Requested', note: '', restocked: false });
+        save(); closeModal(); render(); toast('Request ' + nextId + ' created.');
+      },
+      'cust-note': function (f) {
+        var t = f.text.value.trim(); if (!t) return;
+        cust(f.dataset.id).notes.push({ at: new Date().toISOString(), by: me.name, text: t }); save(); customerModal(f.dataset.id); toast('Note added.');
+      },
+      'invite': function (f) {
+        var name = f.name.value.trim(), email = f.email.value.trim().toLowerCase(), ok = true;
+        $$('.field', f).forEach(function (x) { x.classList.remove('has-error'); var e = $('.err', x); if (e) e.textContent = ''; });
+        if (name.length < 2) { setErr(f.name, 'Enter a name.'); ok = false; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr(f.email, 'Enter a valid email.'); ok = false; }
+        else if (db.employees.some(function (x) { return x.email.toLowerCase() === email; })) { setErr(f.email, 'That email is already on the team.'); ok = false; }
+        if (!ok) return;
+        db.employees.push({ id: uid('e'), name: name, email: email, role: f.role.value, status: 'Invited' });
+        save(); closeModal(); render(); toast('Invite recorded for ' + name + '.');
+      }
+    };
+    document.addEventListener('submit', function (e) {
+      var f = e.target.closest('form[data-form]'); if (!f) return;
+      e.preventDefault(); forms[f.dataset.form](f);
+    });
+
+    /* ---------------- Boot ---------------- */
+    enter(db.employees.filter(function (x) { return x.role === 'admin' && x.status === 'Active'; })[0] || db.employees[0]);
+  })();
+  </script>
+</body>
+</html>

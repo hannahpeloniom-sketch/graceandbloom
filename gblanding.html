@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grace &amp; Bloom Co. | Coffee &amp; Pastries</title>
+  <meta name="description" content="Grace & Bloom Co. — handcrafted coffee and freshly baked pastries, served with love.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gb.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__brand" aria-label="Grace & Bloom Co. home">
+      <img class="nav__mark" src="logogb.png" alt="Grace &amp; Bloom Co. logo">
+      <span>Grace &amp; Bloom <em>Co.</em></span>
+    </a>
+    <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav__links" id="navLinks">
+      <a href="#menu">Menu</a>
+      <a href="#story">Our Story</a>
+      <a href="gbregistration.html#login">Login</a>
+      <a href="gbregistration.html#register" class="btn btn--small">Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero__text reveal">
+        <p class="eyebrow">Coffee &bull; Pastries &bull; Good Company</p>
+        <h1>Every sip feels like a gentle<br><span>bloom.</span></h1>
+        <p class="hero__lead">Small-batch coffee and buttery, just-baked pastries, made with love and served with grace. Your cozy corner is waiting.</p>
+        <div class="hero__cta">
+          <a href="#menu" class="btn">Explore the Menu</a>
+          <a href="gbregistration.html#register" class="btn btn--ghost">Join Us</a>
+        </div>
+      </div>
+      <div class="hero__art reveal">
+        <img class="hero__logo" src="logogb.png" alt="Grace &amp; Bloom Co. logo: coffee cup with heart-shaped steam and a croissant">
+      </div>
+    </section>
+
+    <!-- MARQUEE STRIP -->
+    <div class="strip" aria-hidden="true">
+      <div class="strip__track">
+        <span>Fresh Espresso</span><span>&#9825;</span><span>Butter Croissants</span><span>&#9825;</span><span>Matcha Lattes</span><span>&#9825;</span><span>Baked Daily</span><span>&#9825;</span>
+        <span>Fresh Espresso</span><span>&#9825;</span><span>Butter Croissants</span><span>&#9825;</span><span>Matcha Lattes</span><span>&#9825;</span><span>Baked Daily</span><span>&#9825;</span>
+      </div>
+    </div>
+
+    <!-- MENU -->
+    <section class="section" id="menu">
+      <div class="section__head reveal">
+        <p class="eyebrow">Our Menu</p>
+        <h2>Made fresh, made with love</h2>
+      </div>
+
+      <div class="tabs reveal" role="tablist" aria-label="Menu categories">
+        <button class="tab is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="tab" data-filter="coffee" role="tab" aria-selected="false">Coffee</button>
+        <button class="tab" data-filter="pastry" role="tab" aria-selected="false">Pastries</button>
+        <button class="tab" data-filter="cold" role="tab" aria-selected="false">Cold &amp; Other</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid">
+        <article class="item reveal" data-cat="coffee">
+          <div class="item__icon">&#9749;</div>
+          <div class="item__body">
+            <h3>Heart Latte <span class="price">$4.50</span></h3>
+            <p>Silky espresso, steamed milk and our signature heart latte art.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="coffee">
+          <div class="item__icon">&#9749;</div>
+          <div class="item__body">
+            <h3>Honey Cinnamon Cappuccino <span class="price">$5.00</span></h3>
+            <p>Velvety foam with wildflower honey and a dusting of cinnamon.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="coffee">
+          <div class="item__icon">&#9749;</div>
+          <div class="item__body">
+            <h3>Classic Americano <span class="price">$3.50</span></h3>
+            <p>Bold, smooth and clean. Double shot over hot water.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="pastry">
+          <div class="item__icon">&#129360;</div>
+          <div class="item__body">
+            <h3>Butter Croissant <span class="price">$3.75</span></h3>
+            <p>Golden, flaky and laminated by hand every morning.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="pastry">
+          <div class="item__icon">&#129360;</div>
+          <div class="item__body">
+            <h3>Almond Croissant <span class="price">$4.50</span></h3>
+            <p>Filled with almond cream and finished with toasted flakes.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="pastry">
+          <div class="item__icon">&#127856;</div>
+          <div class="item__body">
+            <h3>Strawberry Cream Danish <span class="price">$4.25</span></h3>
+            <p>Soft pastry, vanilla custard and fresh strawberry compote.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="cold">
+          <div class="item__icon">&#129481;</div>
+          <div class="item__body">
+            <h3>Rose Matcha Latte <span class="price">$5.25</span></h3>
+            <p>Ceremonial matcha, oat milk and a whisper of rose. Hot or iced.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="cold">
+          <div class="item__icon">&#129482;</div>
+          <div class="item__body">
+            <h3>Vanilla Cold Brew <span class="price">$4.75</span></h3>
+            <p>Steeped for 18 hours, finished with vanilla sweet cream.</p>
+          </div>
+        </article>
+        <article class="item reveal" data-cat="cold">
+          <div class="item__icon">&#127861;</div>
+          <div class="item__body">
+            <h3>Hot Chocolate <span class="price">$4.25</span></h3>
+            <p>Rich, dark and creamy, topped with house-made marshmallow.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="section section--tint" id="story">
+      <div class="story">
+        <div class="story__art reveal">
+          <div class="story__card">
+            <img src="logogb.png" alt="Grace &amp; Bloom Co. logo">
+          </div>
+        </div>
+        <div class="story__text reveal">
+          <p class="eyebrow">Our Story</p>
+          <h2>A little corner for big moments</h2>
+          <p>Grace &amp; Bloom Co. founded by Leighanne (Grace) and Rose (Bloom), began with a simple belief: every neighborhood needs a cozy spot where everyone belongs.</p>
+          <p>Whether you're catching up, studying, or just taking a quiet moment for yourself, we hope every visit feels like a little bloom in your day.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <img class="footer__mark" src="logogb.png" alt="Grace &amp; Bloom Co. logo">
+    <p class="footer__name">Grace &amp; Bloom Co.</p>
+    <p class="footer__tag">Coffee &amp; pastries, made with love.</p>
+    <div class="footer__links">
+      <a href="#menu">Menu</a>
+      <a href="#story">Story</a>
+    </div>
+    <p class="footer__copy">&copy; <span id="year"></span> Grace &amp; Bloom Co. All rights reserved.</p>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top">&uarr;</button>
+
+  <script src="gb.js"></script>
+</body>
+</html>
